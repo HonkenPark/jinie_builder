@@ -21,7 +21,7 @@ class TitleBar extends StatelessWidget {
               image: AssetImage(theme == 'pink'
                   ? AppTheme.lightningLogoPink
                   : AppTheme.lightningLogoOrigin),
-              fit: BoxFit.cover,
+              fit: BoxFit.fill,
             ),
           ),
         ),

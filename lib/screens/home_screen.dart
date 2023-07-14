@@ -1,12 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:jinie_builder/common/theme.dart';
+import 'package:jinie_builder/models/user_info.dart';
 import 'package:jinie_builder/widgets/process_menu_navigation.dart';
 import 'package:jinie_builder/widgets/title_bar.dart';
 
 enum EnvironMode { none, local, cloud }
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+  final String theme;
+  final UserInfo userInfo;
+  const HomeScreen({
+    super.key,
+    required this.theme,
+    required this.userInfo,
+  });
 
   @override
   State<HomeScreen> createState() => _HomeScreen();
@@ -14,10 +21,14 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreen extends State<HomeScreen> {
   late int environMode;
+  late String theme;
+  late UserInfo userInfo;
 
   @override
   void initState() {
     environMode = EnvironMode.none.index;
+    theme = widget.theme;
+    userInfo = widget.userInfo;
     super.initState();
   }
 
@@ -30,27 +41,26 @@ class _HomeScreen extends State<HomeScreen> {
         MaterialState.focused,
       };
       if (states.any(interactiveStates.contains)) {
-        return 'pink' == 'pink'
+        return theme == 'pink'
             ? AppTheme.pinkStrongPink
             : AppTheme.indigoYellow;
       }
-      return 'pink' == 'pink' ? AppTheme.pinkGreen : AppTheme.indigoDeepBlue;
+      return theme == 'pink' ? AppTheme.pinkGreen : AppTheme.indigoDeepBlue;
     }
 
     return Scaffold(
       appBar: AppBar(
-        title: const TitleBar(theme: "pink"),
+        title: TitleBar(theme: theme),
         toolbarHeight: 70,
         backgroundColor:
-            'pink' == 'pink' ? AppTheme.pinkMint : AppTheme.indigoDeepBlue,
+            theme == 'pink' ? AppTheme.pinkMint : AppTheme.indigoDeepBlue,
       ),
       backgroundColor: Colors.transparent,
       // backgroundColor: Color.fromRGBO(255, 222, 215, 1.0),
       body: Container(
-        decoration: const BoxDecoration(
-          gradient: 'pink' == 'pink'
-              ? AppTheme.gradientPink
-              : AppTheme.gradientIndigo,
+        decoration: BoxDecoration(
+          gradient:
+              theme == 'pink' ? AppTheme.gradientPink : AppTheme.gradientIndigo,
         ),
         child: Padding(
           padding: const EdgeInsets.symmetric(
@@ -60,9 +70,9 @@ class _HomeScreen extends State<HomeScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
-                'Nice to see you,\n박홍근 님🤗\n\nPlease select the build mode.',
-                style: TextStyle(
+              Text(
+                'Nice to see you,\n${userInfo.name} ${userInfo.grade}님🤗 (${userInfo.team})\n\nPlease select the build mode.',
+                style: const TextStyle(
                   fontSize: 25,
                   fontWeight: FontWeight.bold,
                 ),
@@ -77,7 +87,7 @@ class _HomeScreen extends State<HomeScreen> {
                     borderRadius: BorderRadius.circular(30),
                     border: Border.all(
                       width: 2.0,
-                      color: 'pink' == 'pink'
+                      color: theme == 'pink'
                           ? AppTheme.pinkGreen
                           : AppTheme.indigoYellow,
                     ),
@@ -90,14 +100,14 @@ class _HomeScreen extends State<HomeScreen> {
                     ]),
                 child: Stack(
                   children: <Widget>[
-                    const Align(
+                    Align(
                       alignment: Alignment.center,
                       child: Text(
                         'DM Build',
                         style: TextStyle(
                           fontSize: 26,
                           fontWeight: FontWeight.bold,
-                          color: 'pink' == 'pink'
+                          color: theme == 'pink'
                               ? AppTheme.pinkGreen
                               : AppTheme.indigoDeepBlue,
                         ),
@@ -140,7 +150,7 @@ class _HomeScreen extends State<HomeScreen> {
                     borderRadius: BorderRadius.circular(30),
                     border: Border.all(
                       width: 2.0,
-                      color: 'pink' == 'pink'
+                      color: theme == 'pink'
                           ? AppTheme.pinkGreen
                           : AppTheme.indigoYellow,
                     ),
@@ -153,14 +163,14 @@ class _HomeScreen extends State<HomeScreen> {
                     ]),
                 child: Stack(
                   children: <Widget>[
-                    const Align(
+                    Align(
                       alignment: Alignment.center,
                       child: Text(
                         'LM Mode',
                         style: TextStyle(
                           fontSize: 26,
                           fontWeight: FontWeight.bold,
-                          color: 'pink' == 'pink'
+                          color: theme == 'pink'
                               ? AppTheme.pinkGreen
                               : AppTheme.indigoDeepBlue,
                         ),
@@ -197,8 +207,9 @@ class _HomeScreen extends State<HomeScreen> {
           ),
         ),
       ),
-      bottomNavigationBar: const ProcessMenuNavigation(
+      bottomNavigationBar: ProcessMenuNavigation(
         index: 0,
+        theme: theme,
       ),
     );
   }

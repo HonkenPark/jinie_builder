@@ -36,6 +36,10 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
   provider: ^6.0.5
+  http: ^1.1.0
+  url_launcher: ^6.1.11
+  shared_preferences: ^2.2.0
+  path_provider: ^2.0.15
 
 dev_dependencies:
   flutter_test:
@@ -66,6 +70,7 @@ flutter:
     - assets/lightning_logo_origin.png
     - assets/lightning_logo_pink.png
     - assets/lightning_logo_white.png
+    - assets/group_logo.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
@@ -78,7 +83,10 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
+  fonts:
+      - family: MichromaRegular
+        fonts:
+          - asset: fonts/Michroma-Regular.ttf
   #   - family: Schyler
   #     fonts:
   #       - asset: fonts/Schyler-Regular.ttf

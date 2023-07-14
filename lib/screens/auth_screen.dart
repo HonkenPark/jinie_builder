@@ -1,12 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:jinie_builder/features/diagonal_clipper.dart';
 import 'package:jinie_builder/common/theme.dart';
+import 'package:jinie_builder/features/popup_notify.dart';
+import 'package:jinie_builder/models/user_info.dart';
 import 'package:jinie_builder/provider/theme_provider.dart';
+import 'package:jinie_builder/screens/home_screen.dart';
+import 'package:jinie_builder/screens/splash_screen.dart';
+import 'package:jinie_builder/services/api_service.dart';
 import 'package:provider/provider.dart';
 
 class AuthScreen extends StatefulWidget {
+  final ThemeStorage storage;
   const AuthScreen({
     Key? key,
+    required this.storage,
   }) : super(key: key);
 
   @override
@@ -16,6 +23,41 @@ class AuthScreen extends StatefulWidget {
 class _AuthScreenState extends State<AuthScreen> {
   late ThemeProvider _themeProvider;
   String theme = "";
+  bool isUserInfoLoading = false;
+  final TextEditingController _idController = TextEditingController();
+  UserInfo? userInfo;
+
+  @override
+  void initState() {
+    super.initState();
+    widget.storage.readTheme().then((int value) {
+      setState(() {
+        theme = value == 0 ? 'pink' : 'indigo';
+        _themeProvider = ThemeProvider(theme);
+      });
+    });
+  }
+
+  moveToHomeScreen(String theme, UserInfo data) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => HomeScreen(
+          theme: theme,
+          userInfo: data,
+        ),
+        fullscreenDialog: true,
+      ),
+    );
+  }
+
+  showErrorCode(int code, String msg) {
+    Navigator.of(context).push(PopupNotify<void>(
+      title: '에러코드 $code.👀',
+      content: msg,
+      theme: theme,
+    ));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -110,6 +152,7 @@ class _AuthScreenState extends State<AuthScreen> {
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         TextField(
+                          controller: _idController,
                           textAlign: TextAlign.center,
                           decoration: InputDecoration(
                             filled: true,
@@ -145,7 +188,7 @@ class _AuthScreenState extends State<AuthScreen> {
                           height: 20,
                         ),
                         ElevatedButton(
-                          onPressed: () {},
+                          onPressed: isUserInfoLoading ? null : _getUserInfo,
                           style: ElevatedButton.styleFrom(
                             fixedSize: const Size(400, 45),
                             backgroundColor: theme == 'pink'
@@ -202,6 +245,9 @@ class _AuthScreenState extends State<AuthScreen> {
                             ),
                             onPressed: () {
                               _themeProvider.changeTheme();
+                              int themeValue =
+                                  _themeProvider.theme == 'pink' ? 0 : 1;
+                              widget.storage.writeTheme(themeValue);
                             },
                           ),
                         ),
@@ -218,5 +264,23 @@ class _AuthScreenState extends State<AuthScreen> {
         ),
       ),
     );
+  }
+
+  Future<void> _getUserInfo() async {
+    final String userId = _idController.text;
+    setState(() {
+      isUserInfoLoading = true;
+    });
+
+    final user = await ApiService.getUserInfo(userId);
+    if (user['code'] == 200) {
+      moveToHomeScreen(theme, UserInfo.fromJson(user['msg'], userId));
+    } else {
+      showErrorCode(user['code'], user['msg']);
+    }
+
+    setState(() {
+      isUserInfoLoading = false;
+    });
   }
 }

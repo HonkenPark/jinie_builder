@@ -4,10 +4,12 @@ import 'package:jinie_builder/features/popup_notify.dart';
 
 class ProcessMenuNavigation extends StatefulWidget {
   final int index;
+  final String theme;
 
   const ProcessMenuNavigation({
     super.key,
     required this.index,
+    required this.theme,
   });
 
   @override
@@ -16,6 +18,7 @@ class ProcessMenuNavigation extends StatefulWidget {
 
 class _ProcessMenuNavigation extends State<ProcessMenuNavigation> {
   int _selectedIndex = 0;
+  String theme = "pink";
   bool isEssentialSet = true;
 
   static const TextStyle optionStyle =
@@ -46,6 +49,7 @@ class _ProcessMenuNavigation extends State<ProcessMenuNavigation> {
   @override
   void initState() {
     _selectedIndex = widget.index;
+    theme = widget.theme;
     super.initState();
   }
 
@@ -55,7 +59,7 @@ class _ProcessMenuNavigation extends State<ProcessMenuNavigation> {
         Navigator.of(context).push(PopupNotify<void>(
           title: '사전 설정이 필요합니다.👀',
           content: "빌드모드 또는 플랫폼을 먼저 선택해주세요.🙂",
-          theme: 'pink',
+          theme: theme,
         ));
         return;
       }
@@ -68,35 +72,35 @@ class _ProcessMenuNavigation extends State<ProcessMenuNavigation> {
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
-      items: const <BottomNavigationBarItem>[
+      items: <BottomNavigationBarItem>[
         BottomNavigationBarItem(
-            icon: Icon(Icons.home),
+            icon: const Icon(Icons.home),
             label: 'HOME',
-            backgroundColor: 'pink' == 'pink'
+            backgroundColor: theme == 'pink'
                 ? AppTheme.pinkLightPink
                 : AppTheme.indigoDeepBlue),
         BottomNavigationBarItem(
-            icon: Icon(Icons.directions_car),
+            icon: const Icon(Icons.directions_car),
             label: 'PLATFORM',
-            backgroundColor: 'pink' == 'pink'
+            backgroundColor: theme == 'pink'
                 ? AppTheme.pinkLightPink
                 : AppTheme.indigoDeepBlue),
         BottomNavigationBarItem(
-            icon: Icon(Icons.library_add_check),
+            icon: const Icon(Icons.library_add_check),
             label: 'PARAMS',
-            backgroundColor: 'pink' == 'pink'
+            backgroundColor: theme == 'pink'
                 ? AppTheme.pinkLightPink
                 : AppTheme.indigoDeepBlue),
         BottomNavigationBarItem(
-            icon: Icon(Icons.language),
+            icon: const Icon(Icons.language),
             label: 'LANGUAGES',
-            backgroundColor: 'pink' == 'pink'
+            backgroundColor: theme == 'pink'
                 ? AppTheme.pinkLightPink
                 : AppTheme.indigoDeepBlue),
         BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
+            icon: const Icon(Icons.settings),
             label: 'ENVIRON',
-            backgroundColor: 'pink' == 'pink'
+            backgroundColor: theme == 'pink'
                 ? AppTheme.pinkLightPink
                 : AppTheme.indigoDeepBlue),
       ],
@@ -104,9 +108,9 @@ class _ProcessMenuNavigation extends State<ProcessMenuNavigation> {
       showUnselectedLabels: true,
       iconSize: 42.0,
       selectedItemColor:
-          'pink' == 'pink' ? AppTheme.pinkGreen : AppTheme.indigoYellow,
+          theme == 'pink' ? AppTheme.pinkGreen : AppTheme.indigoYellow,
       unselectedItemColor:
-          'pink' == 'pink' ? AppTheme.pinkStrongPink : AppTheme.indigoLightBlue,
+          theme == 'pink' ? AppTheme.pinkStrongPink : AppTheme.indigoLightBlue,
       onTap: _onItemTapped,
       selectedLabelStyle: const TextStyle(fontWeight: FontWeight.bold),
       unselectedLabelStyle: const TextStyle(fontWeight: FontWeight.bold),
