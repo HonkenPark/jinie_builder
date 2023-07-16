@@ -1,12 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:jinie_builder/common/theme.dart';
+import 'package:jinie_builder/models/user_info.dart';
 import 'package:jinie_builder/widgets/process_menu_navigation.dart';
 import 'package:jinie_builder/widgets/title_bar.dart';
 
 enum EnvironMode { none, local, cloud }
 
 class EnvironScreen extends StatefulWidget {
-  const EnvironScreen({super.key});
+  final String theme;
+  final UserInfo userInfo;
+  const EnvironScreen({
+    super.key,
+    required this.theme,
+    required this.userInfo,
+  });
 
   @override
   State<EnvironScreen> createState() => _EnvironScreenState();
@@ -14,10 +21,14 @@ class EnvironScreen extends StatefulWidget {
 
 class _EnvironScreenState extends State<EnvironScreen> {
   late int environMode;
+  late String theme;
+  late UserInfo userInfo;
 
   @override
   void initState() {
     environMode = EnvironMode.none.index;
+    theme = widget.theme;
+    userInfo = widget.userInfo;
     super.initState();
   }
 
@@ -30,11 +41,11 @@ class _EnvironScreenState extends State<EnvironScreen> {
         MaterialState.focused,
       };
       if (states.any(interactiveStates.contains)) {
-        return 'pink' == 'pink'
+        return theme == 'pink'
             ? AppTheme.pinkStrongPink
             : AppTheme.indigoYellow;
       }
-      return 'pink' == 'pink' ? AppTheme.pinkGreen : AppTheme.indigoDeepBlue;
+      return theme == 'pink' ? AppTheme.pinkGreen : AppTheme.indigoDeepBlue;
     }
 
     return Scaffold(
@@ -42,15 +53,14 @@ class _EnvironScreenState extends State<EnvironScreen> {
         title: const TitleBar(theme: "pink"),
         toolbarHeight: 70,
         backgroundColor:
-            'pink' == 'pink' ? AppTheme.pinkMint : AppTheme.indigoDeepBlue,
+            theme == 'pink' ? AppTheme.pinkMint : AppTheme.indigoDeepBlue,
       ),
       backgroundColor: Colors.transparent,
       // backgroundColor: Color.fromRGBO(255, 222, 215, 1.0),
       body: Container(
-        decoration: const BoxDecoration(
-          gradient: 'pink' == 'pink'
-              ? AppTheme.gradientPink
-              : AppTheme.gradientIndigo,
+        decoration: BoxDecoration(
+          gradient:
+              theme == 'pink' ? AppTheme.gradientPink : AppTheme.gradientIndigo,
         ),
         child: Padding(
           padding: const EdgeInsets.symmetric(
@@ -77,7 +87,7 @@ class _EnvironScreenState extends State<EnvironScreen> {
                     borderRadius: BorderRadius.circular(30),
                     border: Border.all(
                       width: 2.0,
-                      color: 'pink' == 'pink'
+                      color: theme == 'pink'
                           ? AppTheme.pinkGreen
                           : AppTheme.indigoYellow,
                     ),
@@ -90,27 +100,27 @@ class _EnvironScreenState extends State<EnvironScreen> {
                     ]),
                 child: Stack(
                   children: <Widget>[
-                    const Align(
+                    Align(
                       alignment: AlignmentDirectional.centerStart,
                       child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 30),
+                        padding: const EdgeInsets.symmetric(horizontal: 30),
                         child: Icon(
                           Icons.desktop_windows_outlined,
                           size: 40,
-                          color: 'pink' == 'pink'
+                          color: theme == 'pink'
                               ? AppTheme.pinkGreen
                               : AppTheme.indigoDeepBlue,
                         ),
                       ),
                     ),
-                    const Align(
+                    Align(
                       alignment: Alignment.center,
                       child: Text(
                         'Local Mode',
                         style: TextStyle(
                           fontSize: 26,
                           fontWeight: FontWeight.bold,
-                          color: 'pink' == 'pink'
+                          color: theme == 'pink'
                               ? AppTheme.pinkGreen
                               : AppTheme.indigoDeepBlue,
                         ),
@@ -153,7 +163,7 @@ class _EnvironScreenState extends State<EnvironScreen> {
                     borderRadius: BorderRadius.circular(30),
                     border: Border.all(
                       width: 2.0,
-                      color: 'pink' == 'pink'
+                      color: theme == 'pink'
                           ? AppTheme.pinkGreen
                           : AppTheme.indigoYellow,
                     ),
@@ -166,27 +176,27 @@ class _EnvironScreenState extends State<EnvironScreen> {
                     ]),
                 child: Stack(
                   children: <Widget>[
-                    const Align(
+                    Align(
                       alignment: AlignmentDirectional.centerStart,
                       child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 30),
+                        padding: const EdgeInsets.symmetric(horizontal: 30),
                         child: Icon(
                           Icons.cloud_done_outlined,
                           size: 50,
-                          color: 'pink' == 'pink'
+                          color: theme == 'pink'
                               ? AppTheme.pinkGreen
                               : AppTheme.indigoDeepBlue,
                         ),
                       ),
                     ),
-                    const Align(
+                    Align(
                       alignment: Alignment.center,
                       child: Text(
                         'Cloud Mode',
                         style: TextStyle(
                           fontSize: 26,
                           fontWeight: FontWeight.bold,
-                          color: 'pink' == 'pink'
+                          color: theme == 'pink'
                               ? AppTheme.pinkGreen
                               : AppTheme.indigoDeepBlue,
                         ),
@@ -223,8 +233,9 @@ class _EnvironScreenState extends State<EnvironScreen> {
           ),
         ),
       ),
-      bottomNavigationBar: const ProcessMenuNavigation(
+      bottomNavigationBar: ProcessMenuNavigation(
         index: 4,
+        theme: theme,
       ),
     );
   }
