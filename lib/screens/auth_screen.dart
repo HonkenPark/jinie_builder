@@ -152,6 +152,7 @@ class _AuthScreenState extends State<AuthScreen> {
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         TextField(
+                          textInputAction: TextInputAction.go,
                           controller: _idController,
                           textAlign: TextAlign.center,
                           decoration: InputDecoration(
@@ -183,6 +184,9 @@ class _AuthScreenState extends State<AuthScreen> {
                             ),
                             contentPadding: const EdgeInsets.all(15),
                           ),
+                          onSubmitted: (value) {
+                            _getUserInfo();
+                          },
                         ),
                         const SizedBox(
                           height: 20,
