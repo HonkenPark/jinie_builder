@@ -1,0 +1,63 @@
+{
+    "BuildInfo" : [
+        {
+            "mode" : {
+                "key" : "dm",
+                "description" : "DM 빌드"
+            }
+        },
+        {
+            "vendor" : {
+                "key" : "mobis",
+                "description" : "모비스 차종"
+            }
+        },
+        {
+            "platform" : {
+                "key" : "stdg5w",
+                "description" : "표준형5세대 와이드"
+            }
+        },
+        {
+            "params" : {
+                "MERGE_LITERAL_TABLE" : false,
+                "LANGUAGE_LITERAL_TABLE" : false,
+                "TABLE_BUILDER" : false,
+                "INDEX_DB_BUILDER" : false,
+                "LEX_DB_BUILDER" : false,
+                "PROGRAM_DB_BUILDER" : false,
+                "DIALOG_DB_BUILDER" : false,
+                "SCENARIO_BUILDER" : false,
+                "PROMPT_DB_BUILDER" : false,
+                "REFERENCE_DB_BUILDER" : false,
+                "LEX_DB_BUILDER_FOR_POI_CATEGORY" : false,
+                "LEX_DB_BUILDER_FOR_POI_VDE" : false,
+                "REFERENCE_DB_BUILDER_FOR_POI_CATEGORY" : false,
+                "TTS_USER_DIC_BUILD" : false,
+                "LITERAL_TABLE_ONLY" : false,
+                "CATEGORY_DB_BUILDER" : false,
+                "VDE_DB_BUILDER" : false
+            }
+        },
+        {
+            "langs" : {
+                "LANG" : [],
+                "ALL_LANG" : ["ENG", "DUN", "FRF", "GED"],
+                "NA_LANG" : [],
+                "SEA_LANG" : [],
+                "NAVI_O" : [],
+                "NAVI_X" : [],
+                "VDE_LANG" : [],
+                "TTS_ONLY" : []
+
+            }
+        },
+        {
+            "environ" : {
+                "key" : "local",
+                "path": "",
+                "description" : "로컬 빌드"
+            }
+        }
+    ]
+}

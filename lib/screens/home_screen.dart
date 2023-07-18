@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:jinie_builder/common/theme.dart';
 import 'package:jinie_builder/models/user_info.dart';
-import 'package:jinie_builder/widgets/process_menu_navigation.dart';
+import 'package:jinie_builder/screens/platform_screen.dart';
 import 'package:jinie_builder/widgets/title_bar.dart';
-
-enum EnvironMode { none, local, cloud }
+import 'package:jinie_builder/screens/mode_screen.dart';
 
 class HomeScreen extends StatefulWidget {
+  final int index;
   final String theme;
   final UserInfo userInfo;
+
   const HomeScreen({
     super.key,
+    required this.index,
     required this.theme,
     required this.userInfo,
   });
@@ -20,33 +22,45 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreen extends State<HomeScreen> {
-  late int environMode;
+  late int bottomNavBarIndex;
   late String theme;
   late UserInfo userInfo;
 
   @override
   void initState() {
-    environMode = EnvironMode.none.index;
+    bottomNavBarIndex = widget.index;
     theme = widget.theme;
     userInfo = widget.userInfo;
     super.initState();
   }
 
+  void _onItemTapped(int index) {
+    setState(() {
+      bottomNavBarIndex = index;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    Color getColor(Set<MaterialState> states) {
-      const Set<MaterialState> interactiveStates = <MaterialState>{
-        MaterialState.pressed,
-        MaterialState.hovered,
-        MaterialState.focused,
-      };
-      if (states.any(interactiveStates.contains)) {
-        return theme == 'pink'
-            ? AppTheme.pinkStrongPink
-            : AppTheme.indigoYellow;
-      }
-      return theme == 'pink' ? AppTheme.pinkGreen : AppTheme.indigoDeepBlue;
-    }
+    final List<Widget> widgetOptions = <Widget>[
+      ModeScreen(
+        theme: theme,
+        userInfo: userInfo,
+      ),
+      PlatformScreen(
+        theme: theme,
+        userInfo: userInfo,
+      ),
+      const Text(
+        'ParamScreen',
+      ),
+      const Text(
+        'LangScreen',
+      ),
+      const Text(
+        'EnvironScreen',
+      ),
+    ];
 
     return Scaffold(
       appBar: AppBar(
@@ -56,160 +70,53 @@ class _HomeScreen extends State<HomeScreen> {
             theme == 'pink' ? AppTheme.pinkMint : AppTheme.indigoDeepBlue,
       ),
       backgroundColor: Colors.transparent,
-      // backgroundColor: Color.fromRGBO(255, 222, 215, 1.0),
-      body: Container(
-        decoration: BoxDecoration(
-          gradient:
-              theme == 'pink' ? AppTheme.gradientPink : AppTheme.gradientIndigo,
-        ),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 50.0,
-            vertical: 40.0,
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Nice to see you,\n${userInfo.name} ${userInfo.grade}님🤗 (${userInfo.team})\n\nPlease select the build mode.',
-                style: const TextStyle(
-                  fontSize: 25,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const SizedBox(
-                height: 40,
-              ),
-              Container(
-                height: 50,
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(30),
-                    border: Border.all(
-                      width: 2.0,
-                      color: theme == 'pink'
-                          ? AppTheme.pinkGreen
-                          : AppTheme.indigoYellow,
-                    ),
-                    boxShadow: [
-                      BoxShadow(
-                        blurRadius: 15,
-                        offset: const Offset(10, 10),
-                        color: Colors.black.withOpacity(0.5),
-                      ),
-                    ]),
-                child: Stack(
-                  children: <Widget>[
-                    Align(
-                      alignment: Alignment.center,
-                      child: Text(
-                        'DM Build',
-                        style: TextStyle(
-                          fontSize: 26,
-                          fontWeight: FontWeight.bold,
-                          color: theme == 'pink'
-                              ? AppTheme.pinkGreen
-                              : AppTheme.indigoDeepBlue,
-                        ),
-                      ),
-                    ),
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 30),
-                        child: Transform.scale(
-                          scale: 1.5,
-                          child: Checkbox(
-                            checkColor: Colors.white,
-                            fillColor:
-                                MaterialStateProperty.resolveWith(getColor),
-                            value: environMode == EnvironMode.local.index,
-                            onChanged: (value) => {
-                              setState(() {
-                                if (value!) {
-                                  environMode = EnvironMode.local.index;
-                                } else {
-                                  environMode = EnvironMode.none.index;
-                                }
-                              })
-                            },
-                          ),
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              Container(
-                height: 50,
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(30),
-                    border: Border.all(
-                      width: 2.0,
-                      color: theme == 'pink'
-                          ? AppTheme.pinkGreen
-                          : AppTheme.indigoYellow,
-                    ),
-                    boxShadow: [
-                      BoxShadow(
-                        blurRadius: 15,
-                        offset: const Offset(10, 10),
-                        color: Colors.black.withOpacity(0.5),
-                      ),
-                    ]),
-                child: Stack(
-                  children: <Widget>[
-                    Align(
-                      alignment: Alignment.center,
-                      child: Text(
-                        'LM Mode',
-                        style: TextStyle(
-                          fontSize: 26,
-                          fontWeight: FontWeight.bold,
-                          color: theme == 'pink'
-                              ? AppTheme.pinkGreen
-                              : AppTheme.indigoDeepBlue,
-                        ),
-                      ),
-                    ),
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 30),
-                        child: Transform.scale(
-                          scale: 1.5,
-                          child: Checkbox(
-                            checkColor: Colors.white,
-                            fillColor:
-                                MaterialStateProperty.resolveWith(getColor),
-                            value: environMode == EnvironMode.cloud.index,
-                            onChanged: (value) => {
-                              setState(() {
-                                if (value!) {
-                                  environMode = EnvironMode.cloud.index;
-                                } else {
-                                  environMode = EnvironMode.none.index;
-                                }
-                              })
-                            },
-                          ),
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
+      body: Center(
+        child: widgetOptions.elementAt(bottomNavBarIndex),
       ),
-      bottomNavigationBar: ProcessMenuNavigation(
-        index: 0,
-        theme: theme,
+      bottomNavigationBar: BottomNavigationBar(
+        items: <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+              icon: const Icon(Icons.home),
+              label: 'HOME',
+              backgroundColor: theme == 'pink'
+                  ? AppTheme.pinkLightPink
+                  : AppTheme.indigoDeepBlue),
+          BottomNavigationBarItem(
+              icon: const Icon(Icons.directions_car),
+              label: 'PLATFORM',
+              backgroundColor: theme == 'pink'
+                  ? AppTheme.pinkLightPink
+                  : AppTheme.indigoDeepBlue),
+          BottomNavigationBarItem(
+              icon: const Icon(Icons.library_add_check),
+              label: 'PARAMS',
+              backgroundColor: theme == 'pink'
+                  ? AppTheme.pinkLightPink
+                  : AppTheme.indigoDeepBlue),
+          BottomNavigationBarItem(
+              icon: const Icon(Icons.language),
+              label: 'LANGUAGES',
+              backgroundColor: theme == 'pink'
+                  ? AppTheme.pinkLightPink
+                  : AppTheme.indigoDeepBlue),
+          BottomNavigationBarItem(
+              icon: const Icon(Icons.settings),
+              label: 'ENVIRON',
+              backgroundColor: theme == 'pink'
+                  ? AppTheme.pinkLightPink
+                  : AppTheme.indigoDeepBlue),
+        ],
+        currentIndex: bottomNavBarIndex,
+        showUnselectedLabels: true,
+        iconSize: 42.0,
+        selectedItemColor:
+            theme == 'pink' ? AppTheme.pinkGreen : AppTheme.indigoYellow,
+        unselectedItemColor: theme == 'pink'
+            ? AppTheme.pinkStrongPink
+            : AppTheme.indigoLightBlue,
+        onTap: _onItemTapped,
+        selectedLabelStyle: const TextStyle(fontWeight: FontWeight.bold),
+        unselectedLabelStyle: const TextStyle(fontWeight: FontWeight.bold),
       ),
     );
   }

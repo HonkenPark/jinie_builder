@@ -43,6 +43,7 @@ class _AuthScreenState extends State<AuthScreen> {
       context,
       MaterialPageRoute(
         builder: (context) => HomeScreen(
+          index: 0,
           theme: theme,
           userInfo: data,
         ),

@@ -71,6 +71,8 @@ flutter:
     - assets/lightning_logo_pink.png
     - assets/lightning_logo_white.png
     - assets/group_logo.png
+    - assets/vendor_mobis_logo.png
+    - assets/vendor_lge_logo.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

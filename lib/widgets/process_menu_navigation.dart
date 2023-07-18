@@ -25,23 +25,23 @@ class _ProcessMenuNavigation extends State<ProcessMenuNavigation> {
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static const List<Widget> _widgetOptions = <Widget>[
     Text(
-      'mode content',
+      'mode content1',
       style: optionStyle,
     ),
     Text(
-      'platform content',
+      'platform content2',
       style: optionStyle,
     ),
     Text(
-      'parameter content',
+      'parameter conten3',
       style: optionStyle,
     ),
     Text(
-      'languages content',
+      'languages content4',
       style: optionStyle,
     ),
     Text(
-      'environment content',
+      'environment content5',
       style: optionStyle,
     ),
   ];
@@ -54,6 +54,7 @@ class _ProcessMenuNavigation extends State<ProcessMenuNavigation> {
   }
 
   void _onItemTapped(int index) {
+    print(index);
     if (!isEssentialSet) {
       if (index != 0 && index != 1) {
         Navigator.of(context).push(PopupNotify<void>(
