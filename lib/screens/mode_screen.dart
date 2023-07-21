@@ -19,13 +19,11 @@ class ModeScreen extends StatefulWidget {
 }
 
 class _ModeScreen extends State<ModeScreen> {
-  late int buildMode;
   late String theme;
   late UserInfo userInfo;
 
   @override
   void initState() {
-    buildMode = BuildMode.none.index;
     theme = widget.theme;
     userInfo = widget.userInfo;
     super.initState();
@@ -33,7 +31,7 @@ class _ModeScreen extends State<ModeScreen> {
 
   checkState(BuildMode mode) {
     setState(() {
-      buildMode = mode.index;
+      userInfo.mode = mode.name;
     });
   }
 
@@ -121,7 +119,7 @@ class _ModeScreen extends State<ModeScreen> {
                             checkColor: Colors.white,
                             fillColor:
                                 MaterialStateProperty.resolveWith(getColor),
-                            value: buildMode == BuildMode.dm.index,
+                            value: userInfo.mode == BuildMode.dm.name,
                             onChanged: (value) => {
                               if (value!)
                                 {checkState(BuildMode.dm)}
@@ -181,7 +179,7 @@ class _ModeScreen extends State<ModeScreen> {
                             checkColor: Colors.white,
                             fillColor:
                                 MaterialStateProperty.resolveWith(getColor),
-                            value: buildMode == BuildMode.lm.index,
+                            value: userInfo.mode == BuildMode.lm.name,
                             onChanged: (value) => {
                               if (value!)
                                 {checkState(BuildMode.lm)}

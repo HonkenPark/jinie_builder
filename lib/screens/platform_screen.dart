@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:jinie_builder/common/theme.dart';
 import 'package:jinie_builder/models/user_info.dart';
+import 'package:jinie_builder/widgets/platform_list.dart';
 
 enum VendorMode { none, mobis, lge }
 
@@ -17,19 +18,16 @@ class PlatformScreen extends StatefulWidget {
   });
 
   @override
-  State<PlatformScreen> createState() => _ModeScreen();
+  State<PlatformScreen> createState() => _PlatformScreen();
 }
 
-class _ModeScreen extends State<PlatformScreen> {
-  late int vendor;
-  late int platform;
+class _PlatformScreen extends State<PlatformScreen> {
   late String theme;
   late UserInfo userInfo;
 
   @override
   void initState() {
-    vendor = VendorMode.none.index;
-    platform = PlatformMode.none.index;
+    print('init');
     theme = widget.theme;
     userInfo = widget.userInfo;
     super.initState();
@@ -37,14 +35,14 @@ class _ModeScreen extends State<PlatformScreen> {
 
   checkVendor(VendorMode mode) {
     setState(() {
-      vendor = mode.index;
+      userInfo.vendor = mode.name;
     });
   }
 
   checkPlatform(PlatformMode mode) {
-    setState(() {
-      platform = mode.index;
-    });
+    // setState(() {
+    //   // platform = mode.index;
+    // });
   }
 
   @override
@@ -56,11 +54,11 @@ class _ModeScreen extends State<PlatformScreen> {
         MaterialState.focused,
       };
       if (states.any(interactiveStates.contains)) {
-        return 'indigo' == 'pink'
+        return theme == 'pink'
             ? AppTheme.pinkStrongPink
             : AppTheme.indigoYellow;
       }
-      return 'indigo' == 'pink' ? AppTheme.pinkGreen : AppTheme.indigoDeepBlue;
+      return theme == 'pink' ? AppTheme.pinkGreen : AppTheme.indigoDeepBlue;
     }
 
     return Scaffold(
@@ -86,7 +84,7 @@ class _ModeScreen extends State<PlatformScreen> {
                 ),
               ),
               const SizedBox(
-                height: 40,
+                height: 15,
               ),
               Container(
                 height: 60,
@@ -130,7 +128,7 @@ class _ModeScreen extends State<PlatformScreen> {
                             checkColor: Colors.white,
                             fillColor:
                                 MaterialStateProperty.resolveWith(getColor),
-                            value: vendor == VendorMode.mobis.index,
+                            value: userInfo.vendor == VendorMode.mobis.name,
                             onChanged: (value) => {
                               if (value!)
                                 {checkVendor(VendorMode.mobis)}
@@ -189,7 +187,7 @@ class _ModeScreen extends State<PlatformScreen> {
                             checkColor: Colors.white,
                             fillColor:
                                 MaterialStateProperty.resolveWith(getColor),
-                            value: vendor == VendorMode.lge.index,
+                            value: userInfo.vendor == VendorMode.lge.name,
                             onChanged: (value) => {
                               if (value!)
                                 {checkVendor(VendorMode.lge)}
@@ -201,6 +199,18 @@ class _ModeScreen extends State<PlatformScreen> {
                       ),
                     )
                   ],
+                ),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                ),
+                child: PlatformList(
+                  theme: theme,
+                  userInfo: userInfo,
                 ),
               ),
             ],

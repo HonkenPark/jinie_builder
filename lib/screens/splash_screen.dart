@@ -9,6 +9,8 @@ import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 
 class ThemeStorage {
+  int _theme = -1;
+
   Future<String> get _localPath async {
     final directory = await getApplicationDocumentsDirectory();
     print(directory.path);
@@ -24,7 +26,8 @@ class ThemeStorage {
     try {
       final file = await _localFile;
       String contents = await file.readAsString();
-      return int.parse(contents);
+      _theme = int.parse(contents);
+      return _theme;
     } catch (e) {
       return -1;
     }
@@ -32,8 +35,11 @@ class ThemeStorage {
 
   Future<File> writeTheme(int myTheme) async {
     final file = await _localFile;
-    return file.writeAsString('$myTheme');
+    _theme = myTheme;
+    return file.writeAsString('$_theme');
   }
+
+  int get theme => _theme;
 }
 
 class SplashScreen extends StatefulWidget {
@@ -56,7 +62,8 @@ class _SplashScreenState extends State<SplashScreen> {
     widget.storage.readTheme().then((int value) {
       setState(() {
         opacitiValue = 1.0;
-        Timer(const Duration(milliseconds: 4000), () {
+        Timer(const Duration(milliseconds: 40), () {
+          // Timer(const Duration(milliseconds: 4000), () {
           Navigator.push(
             context,
             MaterialPageRoute(
