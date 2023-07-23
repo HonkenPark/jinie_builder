@@ -3,6 +3,7 @@ import 'package:jinie_builder/common/theme.dart';
 import 'package:jinie_builder/models/user_info.dart';
 import 'package:jinie_builder/screens/params_screen.dart';
 import 'package:jinie_builder/screens/platform_screen.dart';
+import 'package:jinie_builder/screens/langs_screen.dart';
 import 'package:jinie_builder/widgets/title_bar.dart';
 import 'package:jinie_builder/screens/mode_screen.dart';
 
@@ -56,8 +57,9 @@ class _HomeScreen extends State<HomeScreen> {
         theme: theme,
         userInfo: userInfo,
       ),
-      const Text(
-        'LangScreen',
+      LangsScreen(
+        theme: theme,
+        userInfo: userInfo,
       ),
       const Text(
         'EnvironScreen',

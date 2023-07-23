@@ -46,7 +46,8 @@ class _ParametersList extends State<ParametersList> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height,
+      height: MediaQuery.of(context).size.height / 1.8,
+      width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(30),
@@ -64,7 +65,6 @@ class _ParametersList extends State<ParametersList> {
       ),
       child: SingleChildScrollView(
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             for (int i = 0;
                 i < userInfo.params[userInfo.vendor].length ~/ 2;
@@ -74,35 +74,32 @@ class _ParametersList extends State<ParametersList> {
                 children: [
                   for (int j = 0; j < 2; j++)
                     Expanded(
-                      child: Transform.scale(
-                        scale: 0.8,
-                        child: SwitchListTile(
-                          thumbIcon: thumbIcon,
-                          activeColor: theme == 'pink'
-                              ? AppTheme.pinkGreen
-                              : AppTheme.indigoYellow,
-                          title: Text(
-                            userInfo.params[userInfo.vendor].keys
-                                .elementAt(i * 2 + j),
-                            style: const TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.bold,
-                            ),
+                      child: SwitchListTile(
+                        thumbIcon: thumbIcon,
+                        activeColor: theme == 'pink'
+                            ? AppTheme.pinkGreen
+                            : AppTheme.indigoYellow,
+                        title: Text(
+                          userInfo.params[userInfo.vendor].keys
+                              .elementAt(i * 2 + j),
+                          style: const TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
                           ),
-                          value: userInfo.params[userInfo.vendor][userInfo
-                                      .params[userInfo.vendor].keys
-                                      .elementAt(i * 2 + j)] ==
-                                  1
-                              ? true
-                              : false,
-                          onChanged: (value) {
-                            setState(() {
-                              userInfo.params[userInfo.vendor][userInfo
-                                  .params[userInfo.vendor].keys
-                                  .elementAt(i * 2 + j)] = value ? 1 : 0;
-                            });
-                          },
                         ),
+                        value: userInfo.params[userInfo.vendor][userInfo
+                                    .params[userInfo.vendor].keys
+                                    .elementAt(i * 2 + j)] ==
+                                1
+                            ? true
+                            : false,
+                        onChanged: (value) {
+                          setState(() {
+                            userInfo.params[userInfo.vendor][userInfo
+                                .params[userInfo.vendor].keys
+                                .elementAt(i * 2 + j)] = value ? 1 : 0;
+                          });
+                        },
                       ),
                     ),
                 ],
@@ -111,38 +108,35 @@ class _ParametersList extends State<ParametersList> {
               Row(
                 children: [
                   Expanded(
-                    child: Transform.scale(
-                      scale: 0.8,
-                      child: SwitchListTile(
-                        thumbIcon: thumbIcon,
-                        activeColor: theme == 'pink'
-                            ? AppTheme.pinkGreen
-                            : AppTheme.indigoYellow,
-                        title: Text(
-                          userInfo.params[userInfo.vendor].keys.elementAt(
-                              userInfo.params[userInfo.vendor].length - 1),
-                          style: const TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold,
-                          ),
+                    child: SwitchListTile(
+                      thumbIcon: thumbIcon,
+                      activeColor: theme == 'pink'
+                          ? AppTheme.pinkGreen
+                          : AppTheme.indigoYellow,
+                      title: Text(
+                        userInfo.params[userInfo.vendor].keys.elementAt(
+                            userInfo.params[userInfo.vendor].length - 1),
+                        style: const TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
                         ),
-                        value: userInfo.params[userInfo.vendor][userInfo
-                                    .params[userInfo.vendor].keys
-                                    .elementAt(userInfo
-                                            .params[userInfo.vendor].length -
-                                        1)] ==
-                                1
-                            ? true
-                            : false,
-                        onChanged: (value) {
-                          setState(() {
-                            userInfo.params[userInfo.vendor][
-                                userInfo.params[userInfo.vendor].keys.elementAt(
-                                    userInfo.params[userInfo.vendor].length -
-                                        1)] = value ? 1 : 0;
-                          });
-                        },
                       ),
+                      value: userInfo.params[userInfo.vendor][userInfo
+                                  .params[userInfo.vendor].keys
+                                  .elementAt(
+                                      userInfo.params[userInfo.vendor].length -
+                                          1)] ==
+                              1
+                          ? true
+                          : false,
+                      onChanged: (value) {
+                        setState(() {
+                          userInfo.params[userInfo.vendor][
+                              userInfo.params[userInfo.vendor].keys.elementAt(
+                                  userInfo.params[userInfo.vendor].length -
+                                      1)] = value ? 1 : 0;
+                        });
+                      },
                     ),
                   ),
                   const Expanded(
