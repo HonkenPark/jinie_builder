@@ -38,7 +38,7 @@ class _CountryVariantListState extends State<CountryVariantList> {
   late String theme;
   late UserInfo userInfo;
   String cvValue = 'none';
-  List<Map<String, dynamic>> langs = [];
+  Map<String, dynamic> langs = {};
   LangParamLabel? selectedLangParam;
 
   var countryList = [
@@ -50,41 +50,41 @@ class _CountryVariantListState extends State<CountryVariantList> {
     "CHN",
     "JPN",
   ];
-  List<Map<String, dynamic>> languageList = [
-    {"label": "KOK", "checked": false},
-    {"label": "ENU", "checked": false},
-    {"label": "FRC", "checked": false},
-    {"label": "SPM", "checked": false},
-    {"label": "ENG", "checked": false},
-    {"label": "FRF", "checked": false},
-    {"label": "GED", "checked": false},
-    {"label": "DUN", "checked": false},
-    {"label": "ITI", "checked": false},
-    {"label": "SPE", "checked": false},
-    {"label": "RUR", "checked": false},
-    {"label": "CZC", "checked": false},
-    {"label": "DAD", "checked": false},
-    {"label": "PLP", "checked": false},
-    {"label": "PTP", "checked": false},
-    {"label": "SWS", "checked": false},
-    {"label": "TRT", "checked": false},
-    {"label": "NON", "checked": false},
-    {"label": "FIF", "checked": false},
-    {"label": "GRG", "checked": false},
-    {"label": "BGB", "checked": false},
-    {"label": "ENA", "checked": false},
-    {"label": "HRH", "checked": false},
-    {"label": "HUH", "checked": false},
-    {"label": "ROR", "checked": false},
-    {"label": "SKS", "checked": false},
-    {"label": "SLS", "checked": false},
-    {"label": "UKU", "checked": false},
-    {"label": "ENI", "checked": false},
-    {"label": "JPJ", "checked": false},
-    {"label": "IDI", "checked": false},
-    {"label": "MNC", "checked": false},
-    {"label": "CAH", "checked": false}
-  ];
+  Map<String, bool> languageList = {
+    "KOK": false,
+    "ENU": false,
+    "FRC": false,
+    "SPM": false,
+    "ENG": false,
+    "FRF": false,
+    "GED": false,
+    "DUN": false,
+    "ITI": false,
+    "SPE": false,
+    "RUR": false,
+    "CZC": false,
+    "DAD": false,
+    "PLP": false,
+    "PTP": false,
+    "SWS": false,
+    "TRT": false,
+    "NON": false,
+    "FIF": false,
+    "GRG": false,
+    "BGB": false,
+    "ENA": false,
+    "HRH": false,
+    "HUH": false,
+    "ROR": false,
+    "SKS": false,
+    "SLS": false,
+    "UKU": false,
+    "ENI": false,
+    "JPJ": false,
+    "IDI": false,
+    "MNC": false,
+    "CAH": false
+  };
 
   @override
   void initState() {
@@ -95,165 +95,83 @@ class _CountryVariantListState extends State<CountryVariantList> {
 
   Color getColor(Set<MaterialState> states) => getCheckboxColor(states, theme);
 
-  checkState(String cv) {
+  checkCountryVariant(String cv) {
     setState(() {
       cvValue = cv;
       switch (cv) {
         case 'KOR':
-          languageList = [
-            {
-              'label': 'KOK',
-              'checked': true,
-            },
-            {
-              'label': 'ENU',
-              'checked': true,
-            }
-          ];
+          languageList = {
+            'KOK': true,
+            'ENU': true,
+          };
           break;
         case 'NA':
-          languageList = [
-            {
-              'label': 'KOK',
-              'checked': true,
-            },
-            {
-              'label': 'ENU',
-              'checked': true,
-            },
-            {
-              'label': 'FRC',
-              'checked': true,
-            },
-            {
-              'label': 'SPM',
-              'checked': true,
-            }
-          ];
+          languageList = {
+            'KOK': true,
+            'ENU': true,
+            'FRC': true,
+            'SPM': true,
+          };
           break;
         case 'EUR':
-          languageList = [
-            {
-              'label': 'KOK',
-              'checked': true,
-            },
-            {
-              'label': 'ENG',
-              'checked': true,
-            },
-            {
-              'label': 'FRF',
-              'checked': true,
-            },
-            {
-              'label': 'SPE',
-              'checked': true,
-            },
-            {
-              'label': 'GED',
-              'checked': true,
-            },
-            {
-              'label': 'DUN',
-              'checked': true,
-            }
-          ];
+          languageList = {
+            'KOK': true,
+            'ENG': true,
+            'FRF': true,
+            'SPE': true,
+            'GED': true,
+            'DUN': true,
+          };
           break;
         case 'RUS':
-          languageList = [
-            {
-              'label': 'KOK',
-              'checked': true,
-            },
-            {
-              'label': 'ENG',
-              'checked': true,
-            },
-            {
-              'label': 'RUR',
-              'checked': true,
-            },
-            {
-              'label': 'CZC',
-              'checked': true,
-            },
-            {
-              'label': 'PLP',
-              'checked': true,
-            },
-            {
-              'label': 'DAD',
-              'checked': true,
-            },
-            {
-              'label': 'FIF',
-              'checked': true,
-            },
-            {
-              'label': 'UKU',
-              'checked': true,
-            }
-          ];
-          break;
+          languageList = {
+            'KOK': true,
+            'ENG': true,
+            'RUR': true,
+            'CZC': true,
+            'PLP': true,
+            'DAD': true,
+            'FIF': true,
+            'UKU': true,
+          };
         case 'SEA':
-          languageList = [
-            {
-              'label': 'KOK',
-              'checked': true,
-            },
-            {
-              'label': 'ENI',
-              'checked': true,
-            },
-            {
-              'label': 'IDI',
-              'checked': true,
-            }
-          ];
+          languageList = {
+            'KOK': true,
+            'ENI': true,
+            'IDI': true,
+          };
           break;
         case 'CHN':
-          languageList = [
-            {
-              'label': 'KOK',
-              'checked': true,
-            },
-            {
-              'label': 'MNC',
-              'checked': true,
-            },
-            {
-              'label': 'CAH',
-              'checked': true,
-            }
-          ];
+          languageList = {
+            'KOK': true,
+            'MNC': true,
+            'CAH': true,
+          };
           break;
         case 'JPN':
-          languageList = [
-            {
-              'label': 'KOK',
-              'checked': true,
-            },
-            {
-              'label': 'ENU',
-              'checked': true,
-            },
-            {
-              'label': 'JPJ',
-              'checked': true,
-            }
-          ];
+          languageList = {
+            'KOK': true,
+            'ENU': true,
+            'JPJ': true,
+          };
           break;
         default:
-          languageList = [];
+          languageList = {};
           break;
       }
     });
   }
 
-  checkLanguages(List<Map<String, dynamic>> selLangObj) {
+  checkLanguages(String key, bool value) {
     setState(() {
-      langs.addAll(selLangObj);
-      print(langs);
+      languageList.addAll({key: value});
+    });
+  }
+
+  applyLangParam(String param, Map<String, bool> langs) {
+    setState(() {
+      userInfo.langs[param].addAll(langs);
+      print(userInfo.langs);
     });
   }
 
@@ -298,9 +216,9 @@ class _CountryVariantListState extends State<CountryVariantList> {
                       value: cvValue == countryList[i],
                       onChanged: (value) => {
                         if (value!)
-                          {checkState(countryList[i])}
+                          {checkCountryVariant(countryList[i])}
                         else
-                          {checkState('none')}
+                          {checkCountryVariant('none')}
                       },
                     ),
                   ),
@@ -314,11 +232,12 @@ class _CountryVariantListState extends State<CountryVariantList> {
         ),
         Wrap(
           children: [
-            for (int i = 0; i < languageList.length; i++)
+            for (var key in languageList.keys)
+              // for (int i = 0; i < languageList.length; i++)
               Column(
                 children: [
                   Text(
-                    languageList[i]['label'],
+                    key,
                     style: const TextStyle(
                       fontSize: 10,
                       fontWeight: FontWeight.bold,
@@ -327,26 +246,12 @@ class _CountryVariantListState extends State<CountryVariantList> {
                   Checkbox(
                     checkColor: Colors.white,
                     fillColor: MaterialStateProperty.resolveWith(getColor),
-                    value: languageList[i]['checked'],
+                    value: languageList[key],
                     onChanged: (value) => {
                       if (value!)
-                        {
-                          checkLanguages([
-                            {
-                              "label": languageList[i]['label'],
-                              "checked": true,
-                            }
-                          ])
-                        }
+                        checkLanguages(key, true)
                       else
-                        {
-                          checkLanguages([
-                            {
-                              "label": languageList[i]['label'],
-                              "checked": false,
-                            }
-                          ])
-                        }
+                        checkLanguages(key, false)
                     },
                   ),
                 ],
@@ -375,7 +280,7 @@ class _CountryVariantListState extends State<CountryVariantList> {
               ),
               ElevatedButton(
                 onPressed: () {
-                  print(selectedLangParam?.title);
+                  applyLangParam(selectedLangParam!.title, languageList);
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: theme == 'pink'
@@ -397,7 +302,7 @@ class _CountryVariantListState extends State<CountryVariantList> {
                   ),
                 ),
                 child: Text(
-                  "SET",
+                  'SET',
                   style: TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.bold,
