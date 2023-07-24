@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:jinie_builder/common/theme.dart';
+import 'package:jinie_builder/features/checkbox_color.dart';
 import 'package:jinie_builder/models/user_info.dart';
+import 'package:jinie_builder/widgets/button_checkbox_mode.dart';
 
 enum BuildMode { none, dm, lm }
 
@@ -29,28 +31,10 @@ class _ModeScreen extends State<ModeScreen> {
     super.initState();
   }
 
-  checkState(BuildMode mode) {
-    setState(() {
-      userInfo.mode = mode.name;
-    });
-  }
+  Color getColor(Set<MaterialState> states) => getCheckboxColor(states, theme);
 
   @override
   Widget build(BuildContext context) {
-    Color getColor(Set<MaterialState> states) {
-      const Set<MaterialState> interactiveStates = <MaterialState>{
-        MaterialState.pressed,
-        MaterialState.hovered,
-        MaterialState.focused,
-      };
-      if (states.any(interactiveStates.contains)) {
-        return theme == 'pink'
-            ? AppTheme.pinkStrongPink
-            : AppTheme.indigoYellow;
-      }
-      return theme == 'pink' ? AppTheme.pinkGreen : AppTheme.indigoDeepBlue;
-    }
-
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: Container(
@@ -76,122 +60,9 @@ class _ModeScreen extends State<ModeScreen> {
               const SizedBox(
                 height: 40,
               ),
-              Container(
-                height: 50,
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(30),
-                    border: Border.all(
-                      width: 2.0,
-                      color: theme == 'pink'
-                          ? AppTheme.pinkGreen
-                          : AppTheme.indigoYellow,
-                    ),
-                    boxShadow: [
-                      BoxShadow(
-                        blurRadius: 15,
-                        offset: const Offset(10, 10),
-                        color: Colors.black.withOpacity(0.5),
-                      ),
-                    ]),
-                child: Stack(
-                  children: <Widget>[
-                    Align(
-                      alignment: Alignment.center,
-                      child: Text(
-                        'DM Build',
-                        style: TextStyle(
-                          fontSize: 26,
-                          fontWeight: FontWeight.bold,
-                          color: theme == 'pink'
-                              ? AppTheme.pinkGreen
-                              : AppTheme.indigoDeepBlue,
-                        ),
-                      ),
-                    ),
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 30),
-                        child: Transform.scale(
-                          scale: 1.5,
-                          child: Checkbox(
-                            checkColor: Colors.white,
-                            fillColor:
-                                MaterialStateProperty.resolveWith(getColor),
-                            value: userInfo.mode == BuildMode.dm.name,
-                            onChanged: (value) => {
-                              if (value!)
-                                {checkState(BuildMode.dm)}
-                              else
-                                {checkState(BuildMode.none)}
-                            },
-                          ),
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              Container(
-                height: 50,
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(30),
-                    border: Border.all(
-                      width: 2.0,
-                      color: theme == 'pink'
-                          ? AppTheme.pinkGreen
-                          : AppTheme.indigoYellow,
-                    ),
-                    boxShadow: [
-                      BoxShadow(
-                        blurRadius: 15,
-                        offset: const Offset(10, 10),
-                        color: Colors.black.withOpacity(0.5),
-                      ),
-                    ]),
-                child: Stack(
-                  children: <Widget>[
-                    Align(
-                      alignment: Alignment.center,
-                      child: Text(
-                        'LM Mode',
-                        style: TextStyle(
-                          fontSize: 26,
-                          fontWeight: FontWeight.bold,
-                          color: theme == 'pink'
-                              ? AppTheme.pinkGreen
-                              : AppTheme.indigoDeepBlue,
-                        ),
-                      ),
-                    ),
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 30),
-                        child: Transform.scale(
-                          scale: 1.5,
-                          child: Checkbox(
-                            checkColor: Colors.white,
-                            fillColor:
-                                MaterialStateProperty.resolveWith(getColor),
-                            value: userInfo.mode == BuildMode.lm.name,
-                            onChanged: (value) => {
-                              if (value!)
-                                {checkState(BuildMode.lm)}
-                              else
-                                {checkState(BuildMode.none)}
-                            },
-                          ),
-                        ),
-                      ),
-                    )
-                  ],
-                ),
+              ButtonCheckboxMode(
+                theme: theme,
+                userInfo: userInfo,
               ),
             ],
           ),

@@ -1,11 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:jinie_builder/common/theme.dart';
+import 'package:jinie_builder/features/checkbox_color.dart';
 import 'package:jinie_builder/models/user_info.dart';
 import 'package:jinie_builder/widgets/platform_list.dart';
 
-enum VendorMode { none, mobis, lge }
+enum VendorMode {
+  none,
+  mobis,
+  lge,
+}
 
-enum PlatformMode { none, mobis, lge }
+enum PlatformMode {
+  none,
+  mobis,
+  lge,
+}
 
 class PlatformScreen extends StatefulWidget {
   final String theme;
@@ -27,7 +36,6 @@ class _PlatformScreen extends State<PlatformScreen> {
 
   @override
   void initState() {
-    print('init');
     theme = widget.theme;
     userInfo = widget.userInfo;
     super.initState();
@@ -39,28 +47,10 @@ class _PlatformScreen extends State<PlatformScreen> {
     });
   }
 
-  checkPlatform(PlatformMode mode) {
-    // setState(() {
-    //   // platform = mode.index;
-    // });
-  }
+  Color getColor(Set<MaterialState> states) => getCheckboxColor(states, theme);
 
   @override
   Widget build(BuildContext context) {
-    Color getColor(Set<MaterialState> states) {
-      const Set<MaterialState> interactiveStates = <MaterialState>{
-        MaterialState.pressed,
-        MaterialState.hovered,
-        MaterialState.focused,
-      };
-      if (states.any(interactiveStates.contains)) {
-        return theme == 'pink'
-            ? AppTheme.pinkStrongPink
-            : AppTheme.indigoYellow;
-      }
-      return theme == 'pink' ? AppTheme.pinkGreen : AppTheme.indigoDeepBlue;
-    }
-
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: Container(

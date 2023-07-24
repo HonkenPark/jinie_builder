@@ -1,23 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:jinie_builder/common/theme.dart';
-import 'package:jinie_builder/common/utils.dart';
+import 'package:jinie_builder/features/checkbox_color.dart';
 import 'package:jinie_builder/models/user_info.dart';
 
-class PlatformList extends StatefulWidget {
+class LanguagesList extends StatefulWidget {
   final String theme;
   final UserInfo userInfo;
 
-  const PlatformList({
+  const LanguagesList({
     super.key,
     required this.theme,
     required this.userInfo,
   });
 
   @override
-  State<PlatformList> createState() => _PlatformListState();
+  State<LanguagesList> createState() => _LanguagesListState();
 }
 
-class _PlatformListState extends State<PlatformList> {
+class _LanguagesListState extends State<LanguagesList> {
   late String theme;
   late UserInfo userInfo;
 
@@ -34,22 +34,10 @@ class _PlatformListState extends State<PlatformList> {
     });
   }
 
+  Color getColor(Set<MaterialState> states) => getCheckboxColor(states, theme);
+
   @override
   Widget build(BuildContext context) {
-    Color getColor(Set<MaterialState> states) {
-      const Set<MaterialState> interactiveStates = <MaterialState>{
-        MaterialState.pressed,
-        MaterialState.hovered,
-        MaterialState.focused,
-      };
-      if (states.any(interactiveStates.contains)) {
-        return theme == 'pink'
-            ? AppTheme.pinkStrongPink
-            : AppTheme.indigoYellow;
-      }
-      return theme == 'pink' ? AppTheme.pinkGreen : AppTheme.indigoDeepBlue;
-    }
-
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
@@ -72,16 +60,16 @@ class _PlatformListState extends State<PlatformList> {
               children: [
                 Stack(
                   children: <Widget>[
-                    Align(
+                    const Align(
                       alignment: Alignment.centerLeft,
                       child: Padding(
-                        padding: const EdgeInsets.only(
+                        padding: EdgeInsets.only(
                           top: 10,
                           left: 10,
                         ),
                         child: Text(
-                          convertPlatform('stdg5_mobis'),
-                          style: const TextStyle(
+                          '표준형5세대(STD G5)',
+                          style: TextStyle(
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -113,16 +101,16 @@ class _PlatformListState extends State<PlatformList> {
                 ),
                 Stack(
                   children: <Widget>[
-                    Align(
+                    const Align(
                       alignment: Alignment.centerLeft,
                       child: Padding(
-                        padding: const EdgeInsets.only(
+                        padding: EdgeInsets.only(
                           top: 10,
                           left: 10,
                         ),
                         child: Text(
-                          convertPlatform('stdg5w_mobis'),
-                          style: const TextStyle(
+                          '표준형5세대 와이드(STD G5W)',
+                          style: TextStyle(
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -159,16 +147,16 @@ class _PlatformListState extends State<PlatformList> {
                   children: [
                     Stack(
                       children: <Widget>[
-                        Align(
+                        const Align(
                           alignment: Alignment.centerLeft,
                           child: Padding(
-                            padding: const EdgeInsets.only(
+                            padding: EdgeInsets.only(
                               top: 10,
                               left: 10,
                             ),
                             child: Text(
-                              convertPlatform('stdg5_lge'),
-                              style: const TextStyle(
+                              '표준형5세대(STD G5)',
+                              style: TextStyle(
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -200,16 +188,16 @@ class _PlatformListState extends State<PlatformList> {
                     ),
                     Stack(
                       children: <Widget>[
-                        Align(
+                        const Align(
                           alignment: Alignment.centerLeft,
                           child: Padding(
-                            padding: const EdgeInsets.only(
+                            padding: EdgeInsets.only(
                               top: 10,
                               left: 10,
                             ),
                             child: Text(
-                              convertPlatform('stdg5w_lge'),
-                              style: const TextStyle(
+                              '표준형5세대 와이드(STD G5W)',
+                              style: TextStyle(
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -241,16 +229,16 @@ class _PlatformListState extends State<PlatformList> {
                     ),
                     Stack(
                       children: <Widget>[
-                        Align(
+                        const Align(
                           alignment: Alignment.centerLeft,
                           child: Padding(
-                            padding: const EdgeInsets.only(
+                            padding: EdgeInsets.only(
                               top: 10,
                               left: 10,
                             ),
                             child: Text(
-                              convertPlatform('prm5'),
-                              style: const TextStyle(
+                              '고급형5세대 (PRM5)',
+                              style: TextStyle(
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -282,16 +270,16 @@ class _PlatformListState extends State<PlatformList> {
                     ),
                     Stack(
                       children: <Widget>[
-                        Align(
+                        const Align(
                           alignment: Alignment.centerLeft,
                           child: Padding(
-                            padding: const EdgeInsets.only(
+                            padding: EdgeInsets.only(
                               top: 10,
                               left: 10,
                             ),
                             child: Text(
-                              convertPlatform('prm6'),
-                              style: const TextStyle(
+                              '고급형6세대 (PRM6)',
+                              style: TextStyle(
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -323,16 +311,16 @@ class _PlatformListState extends State<PlatformList> {
                     ),
                     Stack(
                       children: <Widget>[
-                        Align(
+                        const Align(
                           alignment: Alignment.centerLeft,
                           child: Padding(
-                            padding: const EdgeInsets.only(
+                            padding: EdgeInsets.only(
                               top: 10,
                               left: 10,
                             ),
                             child: Text(
-                              convertPlatform('ccic'),
-                              style: const TextStyle(
+                              'CCIC (CCIC)',
+                              style: TextStyle(
                                 fontWeight: FontWeight.bold,
                               ),
                             ),

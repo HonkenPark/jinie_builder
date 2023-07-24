@@ -86,6 +86,7 @@ class _ParametersList extends State<ParametersList> {
                             fontSize: 14,
                             fontWeight: FontWeight.bold,
                           ),
+                          textAlign: TextAlign.justify,
                         ),
                         value: userInfo.params[userInfo.vendor][userInfo
                                     .params[userInfo.vendor].keys

@@ -14,7 +14,6 @@ class MoveScreen {
   });
 
   moveToHomeScreen(String theme, UserInfo data) {
-    print('hello');
     Navigator.push(
       context,
       MaterialPageRoute(

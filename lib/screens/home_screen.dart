@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:jinie_builder/common/theme.dart';
 import 'package:jinie_builder/models/user_info.dart';
-import 'package:jinie_builder/screens/params_screen.dart';
-import 'package:jinie_builder/screens/platform_screen.dart';
-import 'package:jinie_builder/screens/langs_screen.dart';
 import 'package:jinie_builder/widgets/title_bar.dart';
 import 'package:jinie_builder/screens/mode_screen.dart';
+import 'package:jinie_builder/screens/platform_screen.dart';
+import 'package:jinie_builder/screens/params_screen.dart';
+import 'package:jinie_builder/screens/langs_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   final int index;

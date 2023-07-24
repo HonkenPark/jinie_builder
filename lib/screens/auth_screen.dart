@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:jinie_builder/features/diagonal_clipper.dart';
 import 'package:jinie_builder/common/theme.dart';
+import 'package:jinie_builder/features/diagonal_clipper.dart';
 import 'package:jinie_builder/features/popup_notify.dart';
 import 'package:jinie_builder/models/user_info.dart';
-import 'package:jinie_builder/provider/theme_provider.dart';
-import 'package:jinie_builder/screens/home_screen.dart';
 import 'package:jinie_builder/screens/splash_screen.dart';
+import 'package:jinie_builder/screens/home_screen.dart';
 import 'package:jinie_builder/services/api_service.dart';
+import 'package:jinie_builder/provider/theme_provider.dart';
 import 'package:provider/provider.dart';
 
 class AuthScreen extends StatefulWidget {

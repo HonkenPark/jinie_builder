@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:jinie_builder/common/theme.dart';
 import 'package:jinie_builder/models/user_info.dart';
-import 'package:jinie_builder/widgets/parameters_list.dart';
+import 'package:jinie_builder/widgets/country_variant_list.dart';
 
 class LangsScreen extends StatefulWidget {
   final String theme;
@@ -55,9 +55,32 @@ class _LangsScreen extends State<LangsScreen> {
               const SizedBox(
                 height: 5,
               ),
-              ParametersList(
-                theme: theme,
-                userInfo: userInfo,
+              Container(
+                width: MediaQuery.of(context).size.width,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(30),
+                  border: Border.all(
+                    width:
+                        userInfo.vendor == "mobis" || userInfo.vendor == "lge"
+                            ? 3.0
+                            : 0,
+                    color: theme == 'pink'
+                        ? AppTheme.pinkGreen
+                        : AppTheme.indigoYellow,
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                      blurRadius: 15,
+                      offset: const Offset(10, 10),
+                      color: Colors.black.withOpacity(0.5),
+                    ),
+                  ],
+                ),
+                child: CountryVariantList(
+                  theme: theme,
+                  userInfo: userInfo,
+                ),
               ),
             ],
           ),
