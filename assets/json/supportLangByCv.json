@@ -1,0 +1,101 @@
+{
+    "KO" : {
+        "stdg5_mobis" : ["KOK"],
+        "stdg5w_mobis" : [],
+        "stdg5_lge" : ["KOK"],
+        "stdg5w_lge" : [],
+        "prm5" : ["KOK"],
+        "prm6" : ["KOK"],
+        "ccic" : ["KOK"]
+    },
+    "NA" : {
+        "stdg5_mobis" : ["KOK", "ENU", "FRC", "SPM"],
+        "stdg5w_mobis" : ["KOK", "ENU", "FRC", "SPM"],
+        "stdg5_lge" : [],
+        "stdg5w_lge" : [],
+        "prm5" : ["KOK", "ENU", "FRC", "SPM"],
+        "prm6" : ["KOK", "ENU", "FRC", "SPM"],
+        "ccic" : ["KOK", "ENU", "FRC", "SPM"]
+    },
+    "EU" : {
+        "stdg5_mobis" : ["KOK", "ENG", "GED", "FRF", "SPE", "CZC", "DAD", "DUN", "PLP", "ITI", "PTP", "RUR", "SWS", "TRT", "SKS", "NON"],
+        "stdg5w_mobis" : [],
+        "stdg5_lge" : ["KOK", "ENG", "GED", "FRF", "SPE", "CZC", "DAD", "DUN", "PLP", "ITI", "PTP", "RUR", "SWS", "TRT", "SKS", "NON", "BGB"],
+        "stdg5w_lge" : ["KOK", "ENG", "GED", "FRF", "SPE", "CZC", "DAD", "DUN", "PLP", "ITI", "PTP", "RUR", "SWS", "TRT", "SKS", "NON", "FIF", "HUH", "GRG", "SLS", "UKU", "BGB", "HRH", "ROR"],
+        "prm5" : ["KOK", "ENG", "GED", "FRF", "SPE", "CZC", "DAD", "DUN", "PLP", "ITI", "PTP", "RUR", "SWS", "TRT", "SKS", "NON", "HUH"],
+        "prm6" : ["KOK", "ENG", "GED", "FRF", "SPE", "CZC", "DAD", "DUN", "PLP", "ITI", "PTP", "RUR", "SWS", "TRT", "SKS", "NON", "FIF", "HUH", "GRG", "SLS", "UKU"],
+        "ccic" : ["KOK", "ENG", "GED", "FRF", "SPE", "CZC", "DAD", "DUN", "PLP", "ITI", "PTP", "RUR", "SWS", "TRT", "SKS", "NON", "FIF", "HUH", "GRG", "SLS", "UKU"]
+    },
+    "BR" : {
+        "stdg5_mobis" : ["PTB"],
+        "stdg5w_mobis" : ["PTB"],
+        "stdg5_lge" : [],
+        "stdg5w_lge" : [],
+        "prm5" : [],
+        "prm6" : ["PTB"],
+        "ccic" : ["PTB"]
+    },
+    "IN" : {
+        "stdg5_mobis" : [],
+        "stdg5w_mobis" : ["ENI"],
+        "stdg5_lge" : [],
+        "stdg5w_lge" : [],
+        "prm5" : [],
+        "prm6" : ["ENI"],
+        "ccic" : ["ENI"]
+    },
+    "JP" : {
+        "stdg5_mobis" : [],
+        "stdg5w_mobis" : ["JPN"],
+        "stdg5_lge" : [],
+        "stdg5w_lge" : [],
+        "prm5" : [],
+        "prm6" : ["JPN"],
+        "ccic" : ["JPN"]
+    },
+    "ID" : {
+        "stdg5_mobis" : [],
+        "stdg5w_mobis" : ["IDI"],
+        "stdg5_lge" : [],
+        "stdg5w_lge" : [],
+        "prm5" : [],
+        "prm6" : [],
+        "ccic" : []
+    },
+    "SG" : {
+        "stdg5_mobis" : [],
+        "stdg5w_mobis" : ["ENG"],
+        "stdg5_lge" : [],
+        "stdg5w_lge" : [],
+        "prm5" : [],
+        "prm6" : [],
+        "ccic" : []
+    },
+    "ME" : {
+        "stdg5_mobis" : ["KOK", "ARW", "ENG", "FRF"],
+        "stdg5w_mobis" : ["KOK", "ARW", "ENG", "FRF"],
+        "stdg5_lge" : [],
+        "stdg5w_lge" : [],
+        "prm5" : ["KOK", "ARW", "ENG", "FRF"],
+        "prm6" : ["KOK", "ARW", "ENG", "FRF"],
+        "ccic" : ["KOK", "ARW", "ENG", "FRF"]
+    },
+    "AU" : {
+        "stdg5_mobis" : ["KOK", "ENA"],
+        "stdg5w_mobis" : [],
+        "stdg5_lge" : [],
+        "stdg5w_lge" : ["ENA"],
+        "prm5" : ["KOK", "ENA"],
+        "prm6" : ["KOK", "ENA"],
+        "ccic" : ["KOK", "ENA"]
+    },
+    "CHN" : {
+        "stdg5_mobis" : ["KOK", "ENG", "MNC"],
+        "stdg5w_mobis" : [],
+        "stdg5_lge" : [],
+        "stdg5w_lge" : [],
+        "prm5" : ["KOK", "ENG", "MNC"],
+        "prm6" : [],
+        "ccic" : []
+    }
+}

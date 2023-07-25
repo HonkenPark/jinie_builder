@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jinie_builder/common/theme.dart';
+import 'package:jinie_builder/common/utils.dart';
 import 'package:jinie_builder/features/checkbox_color.dart';
 import 'package:jinie_builder/models/user_info.dart';
 
@@ -20,21 +21,21 @@ enum LangParamLabel {
   final String vendor;
 }
 
-class CountryVariantList extends StatefulWidget {
+class CountryLanguageList extends StatefulWidget {
   final String theme;
   final UserInfo userInfo;
 
-  const CountryVariantList({
+  const CountryLanguageList({
     super.key,
     required this.theme,
     required this.userInfo,
   });
 
   @override
-  State<CountryVariantList> createState() => _CountryVariantListState();
+  State<CountryLanguageList> createState() => _CountryLanguageList();
 }
 
-class _CountryVariantListState extends State<CountryVariantList> {
+class _CountryLanguageList extends State<CountryLanguageList> {
   late String theme;
   late UserInfo userInfo;
   String cvValue = 'none';
@@ -42,49 +43,19 @@ class _CountryVariantListState extends State<CountryVariantList> {
   LangParamLabel? selectedLangParam;
 
   var countryList = [
-    "KOR",
+    "KO",
     "NA",
-    "EUR",
-    "RUS",
-    "SEA",
-    "CHN",
-    "JPN",
+    "EU",
+    "BR",
+    "IN",
+    "JP",
+    "ID",
+    "SG",
+    "ME",
+    "AU",
+    "CHN"
   ];
-  Map<String, bool> languageList = {
-    "KOK": false,
-    "ENU": false,
-    "FRC": false,
-    "SPM": false,
-    "ENG": false,
-    "FRF": false,
-    "GED": false,
-    "DUN": false,
-    "ITI": false,
-    "SPE": false,
-    "RUR": false,
-    "CZC": false,
-    "DAD": false,
-    "PLP": false,
-    "PTP": false,
-    "SWS": false,
-    "TRT": false,
-    "NON": false,
-    "FIF": false,
-    "GRG": false,
-    "BGB": false,
-    "ENA": false,
-    "HRH": false,
-    "HUH": false,
-    "ROR": false,
-    "SKS": false,
-    "SLS": false,
-    "UKU": false,
-    "ENI": false,
-    "JPJ": false,
-    "IDI": false,
-    "MNC": false,
-    "CAH": false
-  };
+  Map<String, bool> languageList = {};
 
   @override
   void initState() {
@@ -95,69 +66,14 @@ class _CountryVariantListState extends State<CountryVariantList> {
 
   Color getColor(Set<MaterialState> states) => getCheckboxColor(states, theme);
 
-  checkCountryVariant(String cv) {
+  Future<void> checkCountryVariant(String cv) async {
+    cvValue = cv;
+    List<String> result = await setLangByPlatform(cv, userInfo.platform);
+
     setState(() {
-      cvValue = cv;
-      switch (cv) {
-        case 'KOR':
-          languageList = {
-            'KOK': true,
-            'ENU': true,
-          };
-          break;
-        case 'NA':
-          languageList = {
-            'KOK': true,
-            'ENU': true,
-            'FRC': true,
-            'SPM': true,
-          };
-          break;
-        case 'EUR':
-          languageList = {
-            'KOK': true,
-            'ENG': true,
-            'FRF': true,
-            'SPE': true,
-            'GED': true,
-            'DUN': true,
-          };
-          break;
-        case 'RUS':
-          languageList = {
-            'KOK': true,
-            'ENG': true,
-            'RUR': true,
-            'CZC': true,
-            'PLP': true,
-            'DAD': true,
-            'FIF': true,
-            'UKU': true,
-          };
-        case 'SEA':
-          languageList = {
-            'KOK': true,
-            'ENI': true,
-            'IDI': true,
-          };
-          break;
-        case 'CHN':
-          languageList = {
-            'KOK': true,
-            'MNC': true,
-            'CAH': true,
-          };
-          break;
-        case 'JPN':
-          languageList = {
-            'KOK': true,
-            'ENU': true,
-            'JPJ': true,
-          };
-          break;
-        default:
-          languageList = {};
-          break;
+      languageList.clear();
+      for (String lang in result) {
+        languageList[lang] = true;
       }
     });
   }
@@ -168,10 +84,26 @@ class _CountryVariantListState extends State<CountryVariantList> {
     });
   }
 
+  List<dynamic> parsingLangs(Map<String, bool> langs) {
+    List<dynamic> ret = [];
+    if (langs.isEmpty) {
+      return [];
+    } else {
+      langs.forEach(
+        (key, value) {
+          if (value) {
+            ret.add(key);
+          }
+        },
+      );
+      return ret;
+    }
+  }
+
   applyLangParam(String param, Map<String, bool> langs) {
     setState(() {
-      userInfo.langs[param].addAll(langs);
-      print(userInfo.langs);
+      userInfo.langs[userInfo.vendor][param].clear();
+      userInfo.langs[userInfo.vendor][param] = parsingLangs(langs);
     });
   }
 
@@ -192,35 +124,29 @@ class _CountryVariantListState extends State<CountryVariantList> {
 
     return Column(
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
+        Wrap(
+          // mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             for (int i = 0; i < countryList.length; i++)
-              Row(
+              Column(
                 children: [
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      countryList[i],
-                      style: const TextStyle(
-                        fontSize: 10,
-                        fontWeight: FontWeight.bold,
-                      ),
+                  Text(
+                    countryList[i],
+                    style: const TextStyle(
+                      fontSize: 10,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Checkbox(
-                      checkColor: Colors.white,
-                      fillColor: MaterialStateProperty.resolveWith(getColor),
-                      value: cvValue == countryList[i],
-                      onChanged: (value) => {
-                        if (value!)
-                          {checkCountryVariant(countryList[i])}
-                        else
-                          {checkCountryVariant('none')}
-                      },
-                    ),
+                  Checkbox(
+                    checkColor: Colors.white,
+                    fillColor: MaterialStateProperty.resolveWith(getColor),
+                    value: cvValue == countryList[i],
+                    onChanged: (value) => {
+                      if (value!)
+                        {checkCountryVariant(countryList[i])}
+                      else
+                        {checkCountryVariant('none')}
+                    },
                   ),
                 ],
               ),
@@ -267,7 +193,7 @@ class _CountryVariantListState extends State<CountryVariantList> {
             children: [
               DropdownMenu(
                 initialSelection: LangParamLabel.paramNull,
-                label: const Text('PARAMETER'),
+                label: const Text('Select Option'),
                 dropdownMenuEntries: langParamEntries,
                 onSelected: (LangParamLabel? param) {
                   setState(() {
@@ -280,7 +206,9 @@ class _CountryVariantListState extends State<CountryVariantList> {
               ),
               ElevatedButton(
                 onPressed: () {
-                  applyLangParam(selectedLangParam!.title, languageList);
+                  if (selectedLangParam != null) {
+                    applyLangParam(selectedLangParam!.title, languageList);
+                  }
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: theme == 'pink'
@@ -310,6 +238,53 @@ class _CountryVariantListState extends State<CountryVariantList> {
                         ? AppTheme.pinkDarkGrey
                         : AppTheme.indigoDarkGrey,
                   ),
+                ),
+              ),
+            ],
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(10),
+          child: Row(
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  for (final String param
+                      in userInfo.langs[userInfo.vendor].keys)
+                    Text(
+                      param,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 10,
+                      ),
+                    ),
+                ],
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 5),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    for (final List<dynamic> param
+                        in userInfo.langs[userInfo.vendor].values)
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.6,
+                        child: Text(
+                          param.isEmpty ? "" : param.toString(),
+                          style: TextStyle(
+                            color: theme == 'pink'
+                                ? AppTheme.pinkGreen
+                                : AppTheme.indigoDeepBlue,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 10,
+                          ),
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
+                          softWrap: true,
+                        ),
+                      ),
+                  ],
                 ),
               ),
             ],

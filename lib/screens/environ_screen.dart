@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:jinie_builder/common/theme.dart';
+import 'package:jinie_builder/features/checkbox_color.dart';
 import 'package:jinie_builder/models/user_info.dart';
-import 'package:jinie_builder/widgets/process_menu_navigation.dart';
-import 'package:jinie_builder/widgets/title_bar.dart';
 
 enum EnvironMode { none, local, cloud }
 
 class EnvironScreen extends StatefulWidget {
   final String theme;
   final UserInfo userInfo;
+
   const EnvironScreen({
     super.key,
     required this.theme,
@@ -23,38 +24,32 @@ class _EnvironScreenState extends State<EnvironScreen> {
   late int environMode;
   late String theme;
   late UserInfo userInfo;
+  late String selectedFolderPath;
 
   @override
   void initState() {
     environMode = EnvironMode.none.index;
     theme = widget.theme;
     userInfo = widget.userInfo;
+    selectedFolderPath = 'NONE';
     super.initState();
   }
 
+  Color getColor(Set<MaterialState> states) => getCheckboxColor(states, theme);
+
   @override
   Widget build(BuildContext context) {
-    Color getColor(Set<MaterialState> states) {
-      const Set<MaterialState> interactiveStates = <MaterialState>{
-        MaterialState.pressed,
-        MaterialState.hovered,
-        MaterialState.focused,
-      };
-      if (states.any(interactiveStates.contains)) {
-        return theme == 'pink'
-            ? AppTheme.pinkStrongPink
-            : AppTheme.indigoYellow;
+    void pickFolder() async {
+      String? result = await FilePicker.platform.getDirectoryPath();
+      if (result != null) {
+        setState(() {
+          selectedFolderPath = result;
+          print(selectedFolderPath);
+        });
       }
-      return theme == 'pink' ? AppTheme.pinkGreen : AppTheme.indigoDeepBlue;
     }
 
     return Scaffold(
-      appBar: AppBar(
-        title: const TitleBar(theme: "pink"),
-        toolbarHeight: 70,
-        backgroundColor:
-            theme == 'pink' ? AppTheme.pinkMint : AppTheme.indigoDeepBlue,
-      ),
       backgroundColor: Colors.transparent,
       // backgroundColor: Color.fromRGBO(255, 222, 215, 1.0),
       body: Container(
@@ -229,13 +224,76 @@ class _EnvironScreenState extends State<EnvironScreen> {
                   ],
                 ),
               ),
+              const SizedBox(
+                height: 20,
+              ),
+              Row(
+                children: [
+                  Text(
+                    'Please set your \'LP Tools\' path\n(ex. D:\\data\\LP Tools)',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20,
+                      color: theme == 'pink'
+                          ? AppTheme.pinkDarkGrey
+                          : Colors.white,
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 40,
+                  ),
+                  ElevatedButton(
+                    onPressed: pickFolder,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: theme == 'pink'
+                          ? AppTheme.pinkMint
+                          : AppTheme.indigoYellow,
+                      foregroundColor: theme == 'pink'
+                          ? AppTheme.pinkStrongPink
+                          : AppTheme.indigoDarkBlue,
+                      shadowColor: Colors.black,
+                      elevation: 20,
+                      shape: RoundedRectangleBorder(
+                        side: BorderSide(
+                          width: 1.5,
+                          color: theme == 'pink'
+                              ? AppTheme.pinkGreen
+                              : AppTheme.indigoYellow,
+                        ),
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                    ),
+                    child: Text(
+                      'SET',
+                      style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
+                        color: theme == 'pink'
+                            ? AppTheme.pinkDarkGrey
+                            : AppTheme.indigoDarkGrey,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 8.0),
+                child: Row(
+                  children: [
+                    const Text(
+                      'Path:',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 14,
+                      ),
+                    ),
+                    Text(selectedFolderPath),
+                  ],
+                ),
+              ),
             ],
           ),
         ),
-      ),
-      bottomNavigationBar: ProcessMenuNavigation(
-        index: 4,
-        theme: theme,
       ),
     );
   }

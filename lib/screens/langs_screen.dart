@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:jinie_builder/common/theme.dart';
 import 'package:jinie_builder/models/user_info.dart';
-import 'package:jinie_builder/widgets/country_variant_list.dart';
+import 'package:jinie_builder/widgets/country_language_list.dart';
 
 class LangsScreen extends StatefulWidget {
   final String theme;
@@ -77,7 +77,7 @@ class _LangsScreen extends State<LangsScreen> {
                     ),
                   ],
                 ),
-                child: CountryVariantList(
+                child: CountryLanguageList(
                   theme: theme,
                   userInfo: userInfo,
                 ),

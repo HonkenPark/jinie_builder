@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:io';
+
 String convertPlatform(String code) {
   String ret = '';
   switch (code) {
@@ -43,4 +46,20 @@ String convertBuildMode(String code) {
       break;
   }
   return ret;
+}
+
+Future<String> loadSupportLangJson() async {
+  File file = File('assets/json/supportLangByCv.json');
+  return await file.readAsString();
+}
+
+Future<List<String>> setLangByPlatform(String cv, String platform) async {
+  String jsonData = await loadSupportLangJson();
+  Map<String, dynamic> data = jsonDecode(jsonData);
+
+  if (data.containsKey(cv) && data[cv].containsKey(platform)) {
+    return List<String>.from(data[cv][platform]);
+  } else {
+    return [];
+  }
 }

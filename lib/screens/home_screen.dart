@@ -6,6 +6,7 @@ import 'package:jinie_builder/screens/mode_screen.dart';
 import 'package:jinie_builder/screens/platform_screen.dart';
 import 'package:jinie_builder/screens/params_screen.dart';
 import 'package:jinie_builder/screens/langs_screen.dart';
+import 'package:jinie_builder/screens/environ_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   final int index;
@@ -61,8 +62,9 @@ class _HomeScreen extends State<HomeScreen> {
         theme: theme,
         userInfo: userInfo,
       ),
-      const Text(
-        'EnvironScreen',
+      EnvironScreen(
+        theme: theme,
+        userInfo: userInfo,
       ),
     ];
 

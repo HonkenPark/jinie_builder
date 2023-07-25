@@ -41,6 +41,7 @@ dependencies:
   shared_preferences: ^2.2.0
   path_provider: ^2.0.15
   get: ^4.6.5
+  file_picker: ^5.3.3
 
 dev_dependencies:
   flutter_test:
@@ -74,6 +75,8 @@ flutter:
     - assets/group_logo.png
     - assets/vendor_mobis_logo.png
     - assets/vendor_lge_logo.png
+
+    - assets/json/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
