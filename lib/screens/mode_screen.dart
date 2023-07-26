@@ -51,7 +51,7 @@ class _ModeScreen extends State<ModeScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Nice to see you,\n${userInfo.name} ${userInfo.grade}님🤗 (${userInfo.team})\n\nPlease select the build mode.',
+                'Nice to see you,\n${userInfo.name} ${userInfo.grade}님💝 (${userInfo.team})\n\nPlease select the build mode.',
                 style: const TextStyle(
                   fontSize: 25,
                   fontWeight: FontWeight.bold,

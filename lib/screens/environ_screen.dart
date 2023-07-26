@@ -1,8 +1,12 @@
+import 'dart:io';
+import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:file_picker/file_picker.dart';
+import 'package:file_selector/file_selector.dart';
 import 'package:jinie_builder/common/theme.dart';
 import 'package:jinie_builder/features/checkbox_color.dart';
 import 'package:jinie_builder/models/user_info.dart';
+import 'package:jinie_builder/features/spin_loader.dart';
+// import 'package:jinie_builder/services/api_service.dart';
 
 enum EnvironMode { none, local, cloud }
 
@@ -21,17 +25,13 @@ class EnvironScreen extends StatefulWidget {
 }
 
 class _EnvironScreenState extends State<EnvironScreen> {
-  late int environMode;
   late String theme;
   late UserInfo userInfo;
-  late String selectedFolderPath;
 
   @override
   void initState() {
-    environMode = EnvironMode.none.index;
     theme = widget.theme;
     userInfo = widget.userInfo;
-    selectedFolderPath = 'NONE';
     super.initState();
   }
 
@@ -39,14 +39,70 @@ class _EnvironScreenState extends State<EnvironScreen> {
 
   @override
   Widget build(BuildContext context) {
+    Future<void> runBuild() async {
+      //TODO: 1. Loading Screen, 2. Run Batch file WITH ARGUMENTS 3. Request User Info Backend to Saving into DB)
+      showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (context) {
+          return IgnorePointer(
+            ignoring: false,
+            child: SpinLoader(
+              theme: theme,
+            ),
+          );
+        },
+      );
+
+      var filePath = '${userInfo.path}\\DM_Build_Option.bat';
+      // var filePath = r'D:\dev\git\flutter\jinie_builder\build\windows\runner\Release\jinie_builder.exe';
+      // var filePath = r'D:\dev\work\LPBatch\test1.bat';
+      print(filePath);
+      final process = await Process.start(filePath, []);
+      process.stdout.transform(utf8.decoder).listen((data) {
+        print('stdout: $data');
+      });
+      process.stderr.transform(utf8.decoder).listen((data) {
+        print('stderr: $data');
+      });
+      final exitCode = await process.exitCode;
+      print('Exit code: $exitCode');
+
+      // final res = await ApiService.setUserInfo(userInfo);
+      // if (res['code'] == 200) {
+      //   print("Update Finish");
+      // } else {
+      //   print("${res['code']} + ${res['msg']}");
+      // }
+    }
+
     void pickFolder() async {
-      String? result = await FilePicker.platform.getDirectoryPath();
-      if (result != null) {
+      // file_selector package
+      final String? directoryPath = await getDirectoryPath();
+      if (directoryPath != null) {
         setState(() {
-          selectedFolderPath = result;
-          print(selectedFolderPath);
+          userInfo.path = directoryPath;
         });
       }
+
+      // file_picker package
+      // String? result = await FilePicker.platform.getDirectoryPath();
+      // if (result != null) {
+      //   setState(() {
+      //     userInfo.path = result;
+      //     print(userInfo.path);
+      //   });
+      // }
+
+      // filesystem package
+      // Create sample directory if not exists
+      // String? path = await FilesystemPicker.open(
+      //   title: 'Save to folder',
+      //   context: context,
+      //   rootDirectory: Directory('D:\\'),
+      //   fsType: FilesystemType.folder,
+      //   pickText: 'Select This Folder',
+      // );
     }
 
     return Scaffold(
@@ -131,13 +187,16 @@ class _EnvironScreenState extends State<EnvironScreen> {
                             checkColor: Colors.white,
                             fillColor:
                                 MaterialStateProperty.resolveWith(getColor),
-                            value: environMode == EnvironMode.local.index,
+                            value: userInfo.environ ==
+                                EnvironMode.local.toString(),
                             onChanged: (value) => {
                               setState(() {
                                 if (value!) {
-                                  environMode = EnvironMode.local.index;
+                                  userInfo.environ =
+                                      EnvironMode.local.toString();
                                 } else {
-                                  environMode = EnvironMode.none.index;
+                                  userInfo.environ =
+                                      EnvironMode.none.toString();
                                 }
                               })
                             },
@@ -207,13 +266,16 @@ class _EnvironScreenState extends State<EnvironScreen> {
                             checkColor: Colors.white,
                             fillColor:
                                 MaterialStateProperty.resolveWith(getColor),
-                            value: environMode == EnvironMode.cloud.index,
+                            value: userInfo.environ ==
+                                EnvironMode.cloud.toString(),
                             onChanged: (value) => {
                               setState(() {
                                 if (value!) {
-                                  environMode = EnvironMode.cloud.index;
+                                  userInfo.environ =
+                                      EnvironMode.cloud.toString();
                                 } else {
-                                  environMode = EnvironMode.none.index;
+                                  userInfo.environ =
+                                      EnvironMode.none.toString();
                                 }
                               })
                             },
@@ -227,70 +289,128 @@ class _EnvironScreenState extends State<EnvironScreen> {
               const SizedBox(
                 height: 20,
               ),
-              Row(
-                children: [
-                  Text(
-                    'Please set your \'LP Tools\' path\n(ex. D:\\data\\LP Tools)',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20,
-                      color: theme == 'pink'
-                          ? AppTheme.pinkDarkGrey
-                          : Colors.white,
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 40,
-                  ),
-                  ElevatedButton(
-                    onPressed: pickFolder,
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: theme == 'pink'
-                          ? AppTheme.pinkMint
-                          : AppTheme.indigoYellow,
-                      foregroundColor: theme == 'pink'
-                          ? AppTheme.pinkStrongPink
-                          : AppTheme.indigoDarkBlue,
-                      shadowColor: Colors.black,
-                      elevation: 20,
-                      shape: RoundedRectangleBorder(
-                        side: BorderSide(
-                          width: 1.5,
-                          color: theme == 'pink'
-                              ? AppTheme.pinkGreen
-                              : AppTheme.indigoYellow,
+              userInfo.environ == EnvironMode.local.toString()
+                  ? Column(
+                      children: [
+                        Row(
+                          children: [
+                            Text(
+                              'Please set your \'LP Tools\' path\n(ex. D:\\data\\LP Tools)',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20,
+                                color: theme == 'pink'
+                                    ? AppTheme.pinkDarkGrey
+                                    : Colors.white,
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 40,
+                            ),
+                            ElevatedButton(
+                              onPressed: pickFolder,
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: theme == 'pink'
+                                    ? AppTheme.pinkMint
+                                    : AppTheme.indigoYellow,
+                                foregroundColor: theme == 'pink'
+                                    ? AppTheme.pinkStrongPink
+                                    : AppTheme.indigoDarkBlue,
+                                shadowColor: Colors.black,
+                                elevation: 20,
+                                shape: RoundedRectangleBorder(
+                                  side: BorderSide(
+                                    width: 1.5,
+                                    color: theme == 'pink'
+                                        ? AppTheme.pinkGreen
+                                        : AppTheme.indigoYellow,
+                                  ),
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                              ),
+                              child: Text(
+                                'SET',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                  color: theme == 'pink'
+                                      ? AppTheme.pinkDarkGrey
+                                      : AppTheme.indigoDarkGrey,
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                    ),
-                    child: Text(
-                      'SET',
-                      style: TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.bold,
-                        color: theme == 'pink'
-                            ? AppTheme.pinkDarkGrey
-                            : AppTheme.indigoDarkGrey,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 8.0),
-                child: Row(
-                  children: [
-                    const Text(
-                      'Path:',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 14,
-                      ),
-                    ),
-                    Text(selectedFolderPath),
-                  ],
-                ),
-              ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 10),
+                          child: Row(
+                            children: [
+                              const Text(
+                                'Path:',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 14,
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 10),
+                                child: Container(
+                                  width:
+                                      MediaQuery.of(context).size.width / 1.5,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(5),
+                                    color: const Color.fromARGB(
+                                        255, 206, 206, 206),
+                                  ),
+                                  child: Text(
+                                    userInfo.path,
+                                    style: const TextStyle(
+                                      color: Color.fromARGB(255, 80, 80, 80),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        userInfo.path.isNotEmpty
+                            ? ElevatedButton(
+                                onPressed: runBuild,
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: theme == 'pink'
+                                      ? AppTheme.pinkGreen
+                                      : AppTheme.indigoYellow,
+                                  foregroundColor: theme == 'pink'
+                                      ? AppTheme.pinkStrongPink
+                                      : AppTheme.indigoDarkBlue,
+                                  shadowColor: Colors.black,
+                                  elevation: 20,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                  fixedSize: Size(
+                                    MediaQuery.of(context).size.width * 0.7,
+                                    MediaQuery.of(context).size.height * 0.07,
+                                  ),
+                                ),
+                                child: Text(
+                                  'BUILD',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                    color: theme == 'pink'
+                                        ? Colors.white
+                                        : AppTheme.indigoDeepBlue,
+                                  ),
+                                ),
+                              )
+                            : const SizedBox.shrink(),
+                      ],
+                    )
+                  : const SizedBox.shrink(),
             ],
           ),
         ),

@@ -62,8 +62,7 @@ class _SplashScreenState extends State<SplashScreen> {
     widget.storage.readTheme().then((int value) {
       setState(() {
         opacitiValue = 1.0;
-        Timer(const Duration(milliseconds: 40), () {
-          // Timer(const Duration(milliseconds: 4000), () {
+        Timer(const Duration(milliseconds: 4000), () {
           Navigator.push(
             context,
             MaterialPageRoute(

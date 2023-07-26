@@ -8,6 +8,7 @@ class AppTheme {
    */
   static const Color commonGrey = Color(0xFF8B8B8B);
   static const Color darkGrey = Color.fromARGB(255, 73, 73, 73);
+  static const Color waveBlue = Color.fromARGB(255, 29, 120, 255);
 
   /*
    * Pink Theme

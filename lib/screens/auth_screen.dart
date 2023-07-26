@@ -52,7 +52,7 @@ class _AuthScreenState extends State<AuthScreen> {
 
   showErrorCode(int code, String msg) {
     Navigator.of(context).push(PopupNotify<void>(
-      title: '에러코드 $code.👀',
+      title: '에러코드 $code.🚫',
       content: msg,
       theme: theme,
     ));

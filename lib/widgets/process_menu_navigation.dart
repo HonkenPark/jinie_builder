@@ -58,8 +58,8 @@ class _ProcessMenuNavigation extends State<ProcessMenuNavigation> {
     if (!isEssentialSet) {
       if (index != 0 && index != 1) {
         Navigator.of(context).push(PopupNotify<void>(
-          title: '사전 설정이 필요합니다.👀',
-          content: "빌드모드 또는 플랫폼을 먼저 선택해주세요.🙂",
+          title: '사전 설정이 필요합니다.😟',
+          content: "빌드모드 또는 플랫폼을 먼저 선택해주세요.✅",
           theme: theme,
         ));
         return;
