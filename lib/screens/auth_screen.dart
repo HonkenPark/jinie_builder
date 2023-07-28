@@ -255,7 +255,16 @@ class _AuthScreenState extends State<AuthScreen> {
                           ),
                         ),
                         const SizedBox(
-                          height: 30,
+                          height: 20,
+                        ),
+                        const Align(
+                          alignment: Alignment.bottomRight,
+                          child: Text(
+                            appVersion,
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                         ),
                       ],
                     ),
@@ -285,22 +294,5 @@ class _AuthScreenState extends State<AuthScreen> {
     setState(() {
       isUserInfoLoading = false;
     });
-
-    //TODO: 외부 파일 실행 기능 (테스트)
-    // import 'dart:io';
-    // import 'dart:convert';
-    // var filePath = r'D:\data\NextVUI_23RU1\LP Tools\DM_Build_Option.bat';
-    // var filePath =
-    // r'D:\dev\git\flutter\jinie_builder\build\windows\runner\Release\jinie_builder.exe';
-    // var filePath = r'D:\dev\work\LPBatch\test1.bat';
-    // final process = await Process.start(filePath, []);
-    // process.stdout.transform(utf8.decoder).listen((data) {
-    //   print('stdout: $data');
-    // });
-    // process.stderr.transform(utf8.decoder).listen((data) {
-    //   print('stderr: $data');
-    // });
-    // final exitCode = await process.exitCode;
-    // print('Exit code: $exitCode');
   }
 }

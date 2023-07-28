@@ -78,8 +78,7 @@ flutter:
     - assets/group_logo.png
     - assets/vendor_mobis_logo.png
     - assets/vendor_lge_logo.png
-
-    - assets/json/
+    - assets/json/support_lang_cv.json
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'dart:io';
+import 'package:flutter/services.dart' show rootBundle;
 
 String convertPlatform(String code) {
   String ret = '';
@@ -49,8 +49,7 @@ String convertBuildMode(String code) {
 }
 
 Future<String> loadSupportLangJson() async {
-  File file = File('assets/json/supportLangByCv.json');
-  return await file.readAsString();
+  return await rootBundle.loadString('assets/json/support_lang_cv.json');
 }
 
 Future<List<String>> setLangByPlatform(String cv, String platform) async {

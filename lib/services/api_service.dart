@@ -6,6 +6,7 @@ class ApiService {
   static const String baseUrl = "http://192.168.123.60:30001";
   static const String login = "login";
   static const String update = "update";
+
   static const headers = {'Content-Type': 'application/json'};
 
   static Future<Map<String, dynamic>> getUserInfo(userId) async {

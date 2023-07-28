@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:jinie_builder/common/theme.dart';
 import 'package:jinie_builder/common/utils.dart';
 import 'package:jinie_builder/features/checkbox_color.dart';
+import 'package:jinie_builder/features/popup_notify.dart';
 import 'package:jinie_builder/models/user_info.dart';
 
 enum LangParamLabel {
@@ -41,6 +42,7 @@ class _CountryLanguageList extends State<CountryLanguageList> {
   String cvValue = 'none';
   Map<String, dynamic> langs = {};
   LangParamLabel? selectedLangParam;
+  bool allLanguageChecked = true;
 
   var countryList = [
     "KO",
@@ -100,9 +102,78 @@ class _CountryLanguageList extends State<CountryLanguageList> {
     }
   }
 
+  void setALLVariable(String vendor, String langParam) {
+    String ret = '0';
+    if (vendor == 'mobis') {
+      switch (langParam) {
+        case 'LANG':
+          ret = '0';
+          break;
+        case 'ALL_LANG':
+          ret = '1';
+          break;
+        case 'NA_LANG':
+          ret = '2';
+          break;
+        case 'SEA_LANG':
+          ret = '3';
+          break;
+        case 'TTS_ONLY_LANG':
+          ret = '4';
+          break;
+      }
+    } else if (vendor == 'lge') {
+      switch (langParam) {
+        case 'LANG':
+          ret = '0';
+          break;
+        case 'ALL_LANG':
+          ret = '1';
+          break;
+        case 'NAVI_O':
+          ret = '2';
+          break;
+        case 'NAVI_X':
+          ret = '3';
+          break;
+        case 'VDE_LANG':
+          ret = '4';
+          break;
+        case 'TTS_ONLY':
+          ret = '5';
+          break;
+      }
+    } else {
+      ret = '0';
+    }
+    userInfo.all = ret;
+  }
+
   applyLangParam(String param, Map<String, bool> langs) {
+    //TODO: 임시코드
+    if (param == 'TTS_ONLY_LANG' || param == 'TTS_ONLY') {
+      Navigator.of(context).push(PopupNotify<void>(
+        title: 'Under construction ⛔',
+        content: '추후 지원될 예정입니다.',
+        theme: theme,
+      ));
+      return;
+    }
+    if (param == 'LANG') {
+      if (parsingLangs(langs).length > 1) {
+        Navigator.of(context).push(PopupNotify<void>(
+          title: 'Check your parameter ☝️',
+          content: 'LANG 변수는 하나의 언어만 선택해주세요.',
+          theme: theme,
+        ));
+        return;
+      }
+    }
+    setALLVariable(userInfo.vendor, param);
     setState(() {
-      userInfo.langs[userInfo.vendor][param].clear();
+      userInfo.langs[userInfo.vendor].forEach((key, value) {
+        userInfo.langs[userInfo.vendor][key].clear();
+      });
       userInfo.langs[userInfo.vendor][param] = parsingLangs(langs);
     });
   }
@@ -202,7 +273,54 @@ class _CountryLanguageList extends State<CountryLanguageList> {
                 },
               ),
               const SizedBox(
-                width: 20,
+                width: 5,
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  setState(() {
+                    if (allLanguageChecked) {
+                      languageList.forEach((key, value) {
+                        languageList[key] = false;
+                      });
+                      allLanguageChecked = false;
+                    } else {
+                      languageList.forEach((key, value) {
+                        languageList[key] = true;
+                      });
+                      allLanguageChecked = true;
+                    }
+                  });
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: theme == 'pink'
+                      ? AppTheme.pinkMint
+                      : AppTheme.indigoYellow,
+                  foregroundColor: theme == 'pink'
+                      ? AppTheme.pinkStrongPink
+                      : AppTheme.indigoDarkBlue,
+                  shape: RoundedRectangleBorder(
+                    side: BorderSide(
+                      width: 1.5,
+                      color: theme == 'pink'
+                          ? AppTheme.pinkGreen
+                          : AppTheme.indigoYellow,
+                    ),
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                ),
+                child: Text(
+                  'De/Active All',
+                  style: TextStyle(
+                    fontSize: 10,
+                    fontWeight: FontWeight.bold,
+                    color: theme == 'pink'
+                        ? AppTheme.pinkDarkGrey
+                        : AppTheme.indigoDarkGrey,
+                  ),
+                ),
+              ),
+              const SizedBox(
+                width: 10,
               ),
               ElevatedButton(
                 onPressed: () {

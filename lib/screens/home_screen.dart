@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jinie_builder/common/theme.dart';
+import 'package:jinie_builder/features/popup_notify.dart';
 import 'package:jinie_builder/models/user_info.dart';
 import 'package:jinie_builder/widgets/title_bar.dart';
 import 'package:jinie_builder/screens/mode_screen.dart';
@@ -38,6 +39,18 @@ class _HomeScreen extends State<HomeScreen> {
   }
 
   void _onItemTapped(int index) {
+    if (index == 2 || index == 3 || index == 4) {
+      if (userInfo.mode == 'none' ||
+          userInfo.vendor == 'none' ||
+          userInfo.platform == 'none') {
+        Navigator.of(context).push(PopupNotify<void>(
+          title: 'Insufficient information ⛔',
+          content: '빌드모드 또는 플랫폼을 먼저 선택해주세요.',
+          theme: theme,
+        ));
+        return;
+      }
+    }
     setState(() {
       bottomNavBarIndex = index;
     });

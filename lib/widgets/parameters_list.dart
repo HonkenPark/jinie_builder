@@ -96,9 +96,13 @@ class _ParametersList extends State<ParametersList> {
                             : false,
                         onChanged: (value) {
                           setState(() {
-                            userInfo.params[userInfo.vendor][userInfo
-                                .params[userInfo.vendor].keys
-                                .elementAt(i * 2 + j)] = value ? 1 : 0;
+                            value
+                                ? userInfo.params[userInfo.vendor][userInfo
+                                    .params[userInfo.vendor].keys
+                                    .elementAt(i * 2 + j)] = 1
+                                : userInfo.params[userInfo.vendor][userInfo
+                                    .params[userInfo.vendor].keys
+                                    .elementAt(i * 2 + j)] = 0;
                           });
                         },
                       ),
@@ -132,10 +136,15 @@ class _ParametersList extends State<ParametersList> {
                           : false,
                       onChanged: (value) {
                         setState(() {
-                          userInfo.params[userInfo.vendor][
-                              userInfo.params[userInfo.vendor].keys.elementAt(
-                                  userInfo.params[userInfo.vendor].length -
-                                      1)] = value ? 1 : 0;
+                          value
+                              ? userInfo.params[userInfo.vendor][userInfo
+                                  .params[userInfo.vendor].keys
+                                  .elementAt(
+                                      userInfo.params[userInfo.vendor].length -
+                                          1)] = 1
+                              : userInfo.params[userInfo.vendor][userInfo
+                                  .params[userInfo.vendor].keys
+                                  .elementAt(userInfo.params[userInfo.vendor].length - 1)] = 0;
                         });
                       },
                     ),

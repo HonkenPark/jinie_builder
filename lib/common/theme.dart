@@ -1,5 +1,7 @@
 import "package:flutter/widgets.dart";
 
+const appVersion = 'ver 1.0.1';
+
 class AppTheme {
   AppTheme._();
 

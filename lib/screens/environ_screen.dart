@@ -4,9 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:file_selector/file_selector.dart';
 import 'package:jinie_builder/common/theme.dart';
 import 'package:jinie_builder/features/checkbox_color.dart';
-import 'package:jinie_builder/models/user_info.dart';
+import 'package:jinie_builder/features/popup_notify.dart';
 import 'package:jinie_builder/features/spin_loader.dart';
-// import 'package:jinie_builder/services/api_service.dart';
+import 'package:jinie_builder/models/user_info.dart';
+import 'package:jinie_builder/services/api_service.dart';
 
 enum EnvironMode { none, local, cloud }
 
@@ -39,14 +40,35 @@ class _EnvironScreenState extends State<EnvironScreen> {
 
   @override
   Widget build(BuildContext context) {
+    void buildCompleteAction(String path) {
+      String dstPath = '$path\\..\\Release';
+      Navigator.of(context).pop();
+      Navigator.of(context).push(PopupNotify<void>(
+        title: 'Build Complete✔️',
+        content: '빌드가 정상적으로 완료되었습니다.',
+        theme: theme,
+      ));
+      Process.run('explorer', [dstPath]);
+    }
+
+    // Only LGE (synchronize SCENARIO_BUILDER, DIALOG_DB_BUILDER)
+    syncParameterLGE() {
+      if (userInfo.vendor == 'lge') {
+        if (userInfo.params['lge']['SCENARIO_BUILDER'] == 1 ||
+            userInfo.params['lge']['DIALOG_DB_BUILDER'] == 1) {
+          userInfo.params['lge']['SCENARIO_BUILDER'] = 1;
+          userInfo.params['lge']['DIALOG_DB_BUILDER'] = 1;
+        }
+      }
+    }
+
     Future<void> runBuild() async {
-      //TODO: 1. Loading Screen, 2. Run Batch file WITH ARGUMENTS 3. Request User Info Backend to Saving into DB)
       showDialog(
         barrierDismissible: false,
         context: context,
         builder: (context) {
           return IgnorePointer(
-            ignoring: false,
+            ignoring: true,
             child: SpinLoader(
               theme: theme,
             ),
@@ -54,26 +76,36 @@ class _EnvironScreenState extends State<EnvironScreen> {
         },
       );
 
-      var filePath = '${userInfo.path}\\DM_Build_Option.bat';
-      // var filePath = r'D:\dev\git\flutter\jinie_builder\build\windows\runner\Release\jinie_builder.exe';
-      // var filePath = r'D:\dev\work\LPBatch\test1.bat';
-      print(filePath);
-      final process = await Process.start(filePath, []);
+      //TODO: Separate exeucte filename by Vendor or Platform
+      var filePath = '${userInfo.buildpath}\\DM_Build_Option.bat';
+      syncParameterLGE();
+      List<String> arguments = userInfo.getBatchFileArguments();
+      final process = await Process.start(filePath, arguments);
       process.stdout.transform(utf8.decoder).listen((data) {
         print('stdout: $data');
       });
       process.stderr.transform(utf8.decoder).listen((data) {
         print('stderr: $data');
       });
-      final exitCode = await process.exitCode;
-      print('Exit code: $exitCode');
+      process.exitCode.then((int exitCode) {
+        if (exitCode == 0) {
+          buildCompleteAction(userInfo.buildpath);
+        } else {
+          Navigator.of(context).pop();
+          Navigator.of(context).push(PopupNotify<void>(
+            title: 'Build Failed⛔',
+            content: '빌드 중 오류가 발생했습니다. CODE: $exitCode',
+            theme: theme,
+          ));
+        }
+      });
 
-      // final res = await ApiService.setUserInfo(userInfo);
-      // if (res['code'] == 200) {
-      //   print("Update Finish");
-      // } else {
-      //   print("${res['code']} + ${res['msg']}");
-      // }
+      final res = await ApiService.setUserInfo(userInfo);
+      if (res['code'] == 200) {
+        print("Update Finish");
+      } else {
+        print("${res['code']} + ${res['msg']}");
+      }
     }
 
     void pickFolder() async {
@@ -81,7 +113,7 @@ class _EnvironScreenState extends State<EnvironScreen> {
       final String? directoryPath = await getDirectoryPath();
       if (directoryPath != null) {
         setState(() {
-          userInfo.path = directoryPath;
+          userInfo.buildpath = directoryPath;
         });
       }
 
@@ -89,8 +121,8 @@ class _EnvironScreenState extends State<EnvironScreen> {
       // String? result = await FilePicker.platform.getDirectoryPath();
       // if (result != null) {
       //   setState(() {
-      //     userInfo.path = result;
-      //     print(userInfo.path);
+      //     userInfo.buildpath = result;
+      //     print(userInfo.buildpath);
       //   });
       // }
 
@@ -269,15 +301,21 @@ class _EnvironScreenState extends State<EnvironScreen> {
                             value: userInfo.environ ==
                                 EnvironMode.cloud.toString(),
                             onChanged: (value) => {
-                              setState(() {
-                                if (value!) {
-                                  userInfo.environ =
-                                      EnvironMode.cloud.toString();
-                                } else {
-                                  userInfo.environ =
-                                      EnvironMode.none.toString();
-                                }
-                              })
+                              // setState(() {
+                              //   if (value!) {
+                              //     userInfo.environ =
+                              //         EnvironMode.cloud.toString();
+                              //   } else {
+                              //     userInfo.environ =
+                              //         EnvironMode.none.toString();
+                              //   }
+                              // })
+                              //TODO: 임시코드
+                              Navigator.of(context).push(PopupNotify<void>(
+                                title: 'Under construction ⛔',
+                                content: '추후 지원될 예정입니다.',
+                                theme: theme,
+                              )),
                             },
                           ),
                         ),
@@ -363,7 +401,7 @@ class _EnvironScreenState extends State<EnvironScreen> {
                                         255, 206, 206, 206),
                                   ),
                                   child: Text(
-                                    userInfo.path,
+                                    userInfo.buildpath,
                                     style: const TextStyle(
                                       color: Color.fromARGB(255, 80, 80, 80),
                                     ),
@@ -376,7 +414,7 @@ class _EnvironScreenState extends State<EnvironScreen> {
                         const SizedBox(
                           height: 20,
                         ),
-                        userInfo.path.isNotEmpty
+                        userInfo.buildpath.isNotEmpty
                             ? ElevatedButton(
                                 onPressed: runBuild,
                                 style: ElevatedButton.styleFrom(

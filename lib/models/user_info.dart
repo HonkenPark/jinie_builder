@@ -1,15 +1,17 @@
 class UserInfo {
-  String name, grade, team;
-  String path, mode, environ, vendor, platform;
+  String id, name, grade, team;
+  String buildpath, mode, all, environ, vendor, platform;
   Map<String, dynamic> params;
   Map<String, dynamic> langs;
 
   UserInfo.fromJson(Map<String, dynamic> json, String userId)
-      : name = json[userId]['name'],
+      : id = userId,
+        name = json[userId]['name'],
         grade = json[userId]['grade'],
         team = json[userId]['team'],
-        path = json[userId]['build_info']['path'],
+        buildpath = json[userId]['build_info']['buildpath'],
         mode = json[userId]['build_info']['mode'],
+        all = json[userId]['build_info']['ALL'],
         environ = json[userId]['build_info']['environ'],
         vendor = json[userId]['build_info']['vendor'],
         platform = json[userId]['build_info']['platform'],
@@ -18,12 +20,14 @@ class UserInfo {
 
   Map<String, dynamic> toJson() {
     return {
+      'id': id,
       'name': name,
       'grade': grade,
       'team': team,
       'build_info': {
-        'path': path,
+        'buildpath': buildpath,
         'mode': mode,
+        'ALL': all,
         'environ': environ,
         'vendor': vendor,
         'platform': platform,
@@ -31,6 +35,27 @@ class UserInfo {
         'params': params,
       },
     };
+  }
+
+  List<String> getBatchFileArguments() {
+    Map<String, dynamic> buildInfo = toJson()['build_info'];
+    List<String> arguments = [
+      'buildpath',
+      buildInfo['buildpath'],
+      'ALL',
+      buildInfo['ALL'],
+    ];
+
+    buildInfo['params'][vendor].forEach((key, value) {
+      arguments.add('$key');
+      arguments.add(value.toString());
+    });
+
+    buildInfo['langs'][vendor].forEach((key, value) {
+      arguments.add('$key');
+      arguments.add(value.toString().replaceAll(RegExp(r'[\[\],]'), ''));
+    });
+    return arguments;
   }
 
   String get getName => name;
