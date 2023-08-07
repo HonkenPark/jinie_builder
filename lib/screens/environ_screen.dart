@@ -76,8 +76,9 @@ class _EnvironScreenState extends State<EnvironScreen> {
         },
       );
 
-      //TODO: Separate exeucte filename by Vendor or Platform
-      var filePath = '${userInfo.buildpath}\\DM_Build_Option.bat';
+      var filePath = userInfo.vendor == 'lge'
+          ? '${userInfo.buildpath}\\DM_Build_Option_LGE.bat'
+          : '${userInfo.buildpath}\\DM_Build_Option_Mobis.bat';
       syncParameterLGE();
       List<String> arguments = userInfo.getBatchFileArguments();
       final process = await Process.start(filePath, arguments);
