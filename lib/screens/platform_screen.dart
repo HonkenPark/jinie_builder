@@ -199,21 +199,30 @@ class _PlatformScreen extends State<PlatformScreen> {
                 padding: const EdgeInsets.symmetric(
                   horizontal: 20,
                 ),
-                child: Column(
-                  children: [
-                    PlatformList(
-                      theme: theme,
-                      userInfo: userInfo,
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    EngineList(
-                      theme: theme,
-                      userInfo: userInfo,
-                    ),
-                  ],
-                ),
+                child: userInfo.mode == 'dm'
+                    ? Column(
+                        children: [
+                          PlatformList(
+                            theme: theme,
+                            userInfo: userInfo,
+                          ),
+                        ],
+                      )
+                    : Column(
+                        children: [
+                          PlatformList(
+                            theme: theme,
+                            userInfo: userInfo,
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          EngineList(
+                            theme: theme,
+                            userInfo: userInfo,
+                          ),
+                        ],
+                      ),
               ),
             ],
           ),
