@@ -3,6 +3,7 @@ import 'package:jinie_builder/common/theme.dart';
 import 'package:jinie_builder/features/checkbox_color.dart';
 import 'package:jinie_builder/models/user_info.dart';
 import 'package:jinie_builder/widgets/platform_list.dart';
+import 'package:jinie_builder/widgets/engine_list.dart';
 
 enum VendorMode {
   none,
@@ -67,7 +68,7 @@ class _PlatformScreen extends State<PlatformScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Text(
-                'Please select the Platform.',
+                'Please select Platform / Engine.',
                 style: TextStyle(
                   fontSize: 25,
                   fontWeight: FontWeight.bold,
@@ -198,9 +199,20 @@ class _PlatformScreen extends State<PlatformScreen> {
                 padding: const EdgeInsets.symmetric(
                   horizontal: 20,
                 ),
-                child: PlatformList(
-                  theme: theme,
-                  userInfo: userInfo,
+                child: Column(
+                  children: [
+                    PlatformList(
+                      theme: theme,
+                      userInfo: userInfo,
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    EngineList(
+                      theme: theme,
+                      userInfo: userInfo,
+                    ),
+                  ],
                 ),
               ),
             ],

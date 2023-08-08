@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:jinie_builder/common/theme.dart';
 import 'package:jinie_builder/common/utils.dart';
 import 'package:jinie_builder/features/checkbox_color.dart';
-import 'package:jinie_builder/features/popup_notify.dart';
 import 'package:jinie_builder/models/user_info.dart';
 
 class ButtonCheckboxMode extends StatefulWidget {
@@ -142,13 +141,7 @@ class _ButtonCheckboxModeState extends State<ButtonCheckboxMode> {
                       fillColor: MaterialStateProperty.resolveWith(getColor),
                       value: userInfo.mode == 'lm',
                       onChanged: (value) => {
-                        // if (value!) {checkState('lm')} else {checkState('none')}
-                        //TODO: 임시코드
-                        Navigator.of(context).push(PopupNotify<void>(
-                          title: 'Under construction ⛔',
-                          content: '추후 지원될 예정입니다.',
-                          theme: theme,
-                        )),
+                        if (value!) {checkState('lm')} else {checkState('none')}
                       },
                     ),
                   ),

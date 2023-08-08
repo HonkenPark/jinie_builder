@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:jinie_builder/common/theme.dart';
 import 'package:jinie_builder/common/utils.dart';
+import 'package:jinie_builder/features/popup_notify.dart';
 import 'package:jinie_builder/models/user_info.dart';
 
 class PlatformList extends StatefulWidget {
@@ -80,47 +81,6 @@ class _PlatformListState extends State<PlatformList> {
                           left: 10,
                         ),
                         child: Text(
-                          convertPlatform('stdg5_mobis'),
-                          style: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    ),
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: Padding(
-                        padding: const EdgeInsets.only(
-                          top: 5,
-                          right: 10,
-                        ),
-                        child: Checkbox(
-                          checkColor: Colors.white,
-                          fillColor:
-                              MaterialStateProperty.resolveWith(getColor),
-                          value: userInfo.platform == "stdg5_mobis",
-                          onChanged: (value) {
-                            if (value!) {
-                              checkPlatform("stdg5_mobis");
-                            } else {
-                              checkPlatform("none");
-                            }
-                          },
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                Stack(
-                  children: <Widget>[
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: Padding(
-                        padding: const EdgeInsets.only(
-                          top: 10,
-                          left: 10,
-                        ),
-                        child: Text(
                           convertPlatform('stdg5w_mobis'),
                           style: const TextStyle(
                             fontWeight: FontWeight.bold,
@@ -157,47 +117,6 @@ class _PlatformListState extends State<PlatformList> {
           : userInfo.vendor == "lge"
               ? Column(
                   children: [
-                    Stack(
-                      children: <Widget>[
-                        Align(
-                          alignment: Alignment.centerLeft,
-                          child: Padding(
-                            padding: const EdgeInsets.only(
-                              top: 10,
-                              left: 10,
-                            ),
-                            child: Text(
-                              convertPlatform('stdg5_lge'),
-                              style: const TextStyle(
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        ),
-                        Align(
-                          alignment: Alignment.centerRight,
-                          child: Padding(
-                            padding: const EdgeInsets.only(
-                              top: 5,
-                              right: 10,
-                            ),
-                            child: Checkbox(
-                              checkColor: Colors.white,
-                              fillColor:
-                                  MaterialStateProperty.resolveWith(getColor),
-                              value: userInfo.platform == "stdg5_lge",
-                              onChanged: (value) {
-                                if (value!) {
-                                  checkPlatform("stdg5_lge");
-                                } else {
-                                  checkPlatform("none");
-                                }
-                              },
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
                     Stack(
                       children: <Widget>[
                         Align(
@@ -245,48 +164,7 @@ class _PlatformListState extends State<PlatformList> {
                           alignment: Alignment.centerLeft,
                           child: Padding(
                             padding: const EdgeInsets.only(
-                              top: 10,
-                              left: 10,
-                            ),
-                            child: Text(
-                              convertPlatform('prm5'),
-                              style: const TextStyle(
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        ),
-                        Align(
-                          alignment: Alignment.centerRight,
-                          child: Padding(
-                            padding: const EdgeInsets.only(
-                              top: 5,
-                              right: 10,
-                            ),
-                            child: Checkbox(
-                              checkColor: Colors.white,
-                              fillColor:
-                                  MaterialStateProperty.resolveWith(getColor),
-                              value: userInfo.platform == "prm5",
-                              onChanged: (value) {
-                                if (value!) {
-                                  checkPlatform("prm5");
-                                } else {
-                                  checkPlatform("none");
-                                }
-                              },
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    Stack(
-                      children: <Widget>[
-                        Align(
-                          alignment: Alignment.centerLeft,
-                          child: Padding(
-                            padding: const EdgeInsets.only(
-                              top: 10,
+                              top: 3,
                               left: 10,
                             ),
                             child: Text(
@@ -301,7 +179,6 @@ class _PlatformListState extends State<PlatformList> {
                           alignment: Alignment.centerRight,
                           child: Padding(
                             padding: const EdgeInsets.only(
-                              top: 5,
                               right: 10,
                             ),
                             child: Checkbox(
@@ -310,11 +187,17 @@ class _PlatformListState extends State<PlatformList> {
                                   MaterialStateProperty.resolveWith(getColor),
                               value: userInfo.platform == "prm6",
                               onChanged: (value) {
-                                if (value!) {
-                                  checkPlatform("prm6");
-                                } else {
-                                  checkPlatform("none");
-                                }
+                                // if (value!) {
+                                //   checkPlatform("prm6");
+                                // } else {
+                                //   checkPlatform("none");
+                                // }
+                                //TODO: 임시코드
+                                Navigator.of(context).push(PopupNotify<void>(
+                                  title: 'Under construction ⛔',
+                                  content: '추후 지원될 예정입니다.',
+                                  theme: theme,
+                                ));
                               },
                             ),
                           ),
@@ -327,7 +210,6 @@ class _PlatformListState extends State<PlatformList> {
                           alignment: Alignment.centerLeft,
                           child: Padding(
                             padding: const EdgeInsets.only(
-                              top: 10,
                               left: 10,
                             ),
                             child: Text(
@@ -342,7 +224,6 @@ class _PlatformListState extends State<PlatformList> {
                           alignment: Alignment.centerRight,
                           child: Padding(
                             padding: const EdgeInsets.only(
-                              top: 5,
                               right: 10,
                             ),
                             child: Checkbox(
@@ -351,11 +232,17 @@ class _PlatformListState extends State<PlatformList> {
                                   MaterialStateProperty.resolveWith(getColor),
                               value: userInfo.platform == "ccic",
                               onChanged: (value) {
-                                if (value!) {
-                                  checkPlatform("ccic");
-                                } else {
-                                  checkPlatform("none");
-                                }
+                                // if (value!) {
+                                //   checkPlatform("ccic");
+                                // } else {
+                                //   checkPlatform("none");
+                                // }
+                                //TODO: 임시코드
+                                Navigator.of(context).push(PopupNotify<void>(
+                                  title: 'Under construction ⛔',
+                                  content: '추후 지원될 예정입니다.',
+                                  theme: theme,
+                                ));
                               },
                             ),
                           ),
