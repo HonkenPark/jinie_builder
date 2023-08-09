@@ -1,6 +1,6 @@
 class UserInfo {
   String id, name, grade, team;
-  String buildpath, mode, all, environ, vendor, platform;
+  String buildpath, mode, engine, all, environ, vendor, platform;
   Map<String, dynamic> params;
   Map<String, dynamic> langs;
 
@@ -11,6 +11,7 @@ class UserInfo {
         team = json[userId]['team'],
         buildpath = json[userId]['build_info']['buildpath'],
         mode = json[userId]['build_info']['mode'],
+        engine = json[userId]['build_info']['engine'],
         all = json[userId]['build_info']['ALL'],
         environ = json[userId]['build_info']['environ'],
         vendor = json[userId]['build_info']['vendor'],
@@ -27,6 +28,7 @@ class UserInfo {
       'build_info': {
         'buildpath': buildpath,
         'mode': mode,
+        'engine': engine,
         'ALL': all,
         'environ': environ,
         'vendor': vendor,
@@ -62,6 +64,8 @@ class UserInfo {
   String get getVendor => vendor;
   String get getPlatform => platform;
   String get getEnviron => environ;
+  String get getEngine => engine;
 
   void setMode(String value) => mode = value;
+  void setEngine(String value) => engine = value;
 }
